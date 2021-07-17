@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public float lvl = 1;
-    public float maxHealth;
-    private float currentHealth;
-    private string Name;
-    private float attack;
-    private float ms;
-    private float asp;
-    private float detectionRange=1f;
+    [SerializeField] public float lvl = 1;
+    [SerializeField] public float maxHealth;
+    [SerializeField] private float currentHealth;
+    [SerializeField] private string Name;
+    [SerializeField] private float attack;
+    [SerializeField] private float ms;
+    [SerializeField] private float asp;
+    [SerializeField] private float detectionRange=2.5f;
 
-    private bool detected=false;
+    [SerializeField] private bool detected=false;
 
     [SerializeField] private LayerMask EnemyLayers;
-    private Transform tf;
+    private Rigidbody2D rb;
     private GameObject player;
     void Start()
     {
-        tf = GetComponent<Transform>();
+        rb = GetComponent<Rigidbody2D>();
         player = GameObject.Find("Player");
 
         Name = this.name.Split(char.Parse(" "))[0];
@@ -33,9 +33,9 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         
-        Collider2D[] HitEnemies = Physics2D.OverlapCircleAll(this.transform.position, detectionRange, EnemyLayers);
+        Collider2D[] HitEnemies = Physics2D.OverlapCircleAll(transform.position, detectionRange, EnemyLayers);
 
-        if (HitEnemies != null)
+        if (HitEnemies.Length >0)
         {
             detected = true;
         }
@@ -74,10 +74,18 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        transform.position = Vector3.Lerp(transform.position, player.transform.position, 0.5f * Time.deltaTime);
+        //transform.position = Vector3.Lerp(transform.position, player.transform.position, 0.5f * Time.deltaTime);
+        if (transform.position.x-player.transform.position.x>1f)
+        {
+            rb.velocity = new Vector2(-1*ms, rb.velocity.y);
+            transform.localScale = new Vector2(-1, 1);
+        }
 
-
-
+        else if (transform.position.x - player.transform.position.x < -1f) 
+        {
+            rb.velocity = new Vector2(ms, rb.velocity.y);
+            transform.localScale = new Vector2(1, 1);
+        }
 
     }
 
@@ -111,4 +119,11 @@ public class Enemy : MonoBehaviour
         //disable enemy
     }
 
+    private void OnDrawGizmosSelected()
+    {
+        if (transform.position != null)
+        {
+            Gizmos.DrawWireSphere(transform.position, detectionRange);
+        }
+    }
 }
