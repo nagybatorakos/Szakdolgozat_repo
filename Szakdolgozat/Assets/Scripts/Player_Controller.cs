@@ -45,6 +45,7 @@ public class Player_Controller : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             rb.velocity = new Vector2(MovementSpeed * -1, rb.velocity.y);
+            //tf.position = new Vector3(tf.position.x - 0.2f, tf.position.y, tf.position.z);
             tf.localScale = new Vector2(-1, 1);
         }
 

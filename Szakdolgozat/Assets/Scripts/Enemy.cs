@@ -75,13 +75,13 @@ public class Enemy : MonoBehaviour
         }
 
         //transform.position = Vector3.Lerp(transform.position, player.transform.position, 0.5f * Time.deltaTime);
-        if (transform.position.x-player.transform.position.x>1f)
+        if (transform.position.x-player.transform.position.x>0.8f)
         {
             rb.velocity = new Vector2(-1*ms, rb.velocity.y);
             transform.localScale = new Vector2(-1, 1);
         }
 
-        else if (transform.position.x - player.transform.position.x < -1f) 
+        else if (transform.position.x - player.transform.position.x < -0.8f) 
         {
             rb.velocity = new Vector2(ms, rb.velocity.y);
             transform.localScale = new Vector2(1, 1);
