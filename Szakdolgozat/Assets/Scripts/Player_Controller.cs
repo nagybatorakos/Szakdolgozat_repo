@@ -54,6 +54,11 @@ public class Player_Controller : MonoBehaviour
             tf.localScale = new Vector2(1, 1);
         }
 
+        //if (Input.GetKeyUp(KeyCode.LeftArrow) | Input.GetKeyUp(KeyCode.RightArrow))
+        //{
+            //rb.velocity = new Vector2(0f, rb.velocity.y);
+        //}
+
         if (Input.GetKey(KeyCode.UpArrow))
         {
             rb.velocity = new Vector2(rb.velocity.x, Jumpheight);
