@@ -10,7 +10,7 @@ public class Camera_Controller : MonoBehaviour
 
     void Start()
     {
-        playertf = GameObject.Find("Player").GetComponent<Transform>();
+        //playertf = GameObject.Find("Player").GetComponent<Transform>();
         camtf = GetComponent<Transform>();
     }
 
@@ -19,4 +19,7 @@ public class Camera_Controller : MonoBehaviour
     {
         camtf.position = new Vector3(playertf.position.x, camtf.position.y, camtf.position.z);
     }
+
+
+
 }

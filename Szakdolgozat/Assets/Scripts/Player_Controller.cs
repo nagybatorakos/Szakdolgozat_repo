@@ -21,6 +21,9 @@ public class Player_Controller : MonoBehaviour
 
     [SerializeField] private LayerMask EnemyLayers;
 
+    public bool sword = false;
+    public bool bow = true;
+    [SerializeField] private GameObject projectile;
 
     void Start()
     {
@@ -75,10 +78,12 @@ public class Player_Controller : MonoBehaviour
         }
     }
 
-    private void Attack() 
+    public void Attack() 
     {
         //need code for hunter, mage too
 
+        if (sword)
+        {
         //anim.SetTrigger("Attack");
 
         //enemy detection and storing
@@ -89,6 +94,17 @@ public class Player_Controller : MonoBehaviour
         {
             Debug.Log("we hit "+ enemy.name);
             enemy.GetComponent<Enemy>().TakeDamage(AttackDamage);
+        }
+        }
+        else if (bow)
+        {
+            //shoot+ on hit destroy
+            projectile.transform.localScale = new Vector2(transform.localScale.x, transform.localScale.y);
+            Instantiate(projectile, AttackPoint.position, transform.rotation);
+            //damage collided
+            //Debug.Log("we hit " + enemy.name);
+            //enemy.GetComponent<Enemy>().TakeDamage(AttackDamage);
+
         }
     }
 
