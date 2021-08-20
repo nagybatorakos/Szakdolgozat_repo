@@ -3230,6 +3230,9 @@ MonoBehaviour:
   sword: 0
   bow: 1
   projectile: {fileID: 4821973587298449969, guid: dcc047a5b3162424690fa34e79c4a313, type: 3}
+  healthBar: {fileID: 1021336782}
+  maxHealth: 100
+  currentHealth: 0
 --- !u!70 &977120334
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -3369,14 +3372,18 @@ MonoBehaviour:
   maxHealth: 0
   currentHealth: 0
   Name: 
-  attack: 0
+  dmg: 0
   ms: 0
   asp: 0
   detectionRange: 2.5
+  attackrange: 0.4
+  attackpoint: {fileID: 1829072527}
   detected: 0
+  attacking: 0
   EnemyLayers:
     serializedVersion: 2
     m_Bits: 1024
+  player: {fileID: 977120331}
 --- !u!70 &978302651
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -3433,6 +3440,7 @@ Transform:
   - {fileID: 1635904998}
   - {fileID: 80815258}
   - {fileID: 1879514089}
+  - {fileID: 1829072527}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3521,6 +3529,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1021336780}
   - component: {fileID: 1021336781}
+  - component: {fileID: 1021336782}
   m_Layer: 5
   m_Name: HealthBar
   m_TagString: Untagged
@@ -3600,6 +3609,19 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1021336782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021336779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7949bd3bbaf718488f9e7b182c404b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 1021336781}
 --- !u!1 &1040083554
 GameObject:
   m_ObjectHideFlags: 0
@@ -3738,14 +3760,18 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   Name: 
-  attack: 0
+  dmg: 0
   ms: 0
   asp: 0
   detectionRange: 2
+  attackrange: 2.5
+  attackpoint: {fileID: 0}
   detected: 0
+  attacking: 0
   EnemyLayers:
     serializedVersion: 2
     m_Bits: 1024
+  player: {fileID: 0}
 --- !u!1 &1113037274
 GameObject:
   m_ObjectHideFlags: 0
@@ -3779,7 +3805,7 @@ MonoBehaviour:
   - name: Skeleton_s
     HP: 100
     MovementSpeed: 2
-    AttackSpeed: 0.75
+    AttackSpeed: 0.5
     Damage: 10
   - name: 
     HP: 0
@@ -4005,7 +4031,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.061693586, g: 0.8018868, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4294,6 +4320,36 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1829072526
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1829072527}
+  m_Layer: 11
+  m_Name: attackpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1829072527
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829072526}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.38, y: -0.08, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 978302653}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1862011457
 GameObject:
   m_ObjectHideFlags: 0

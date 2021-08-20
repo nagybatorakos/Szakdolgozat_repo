@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 4821973587298449969}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_LocalScale: {x: -1, y: 1, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -120,6 +120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrow: 1
   speed: 6
+  damage: 20
 --- !u!70 &4679318371567102078
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

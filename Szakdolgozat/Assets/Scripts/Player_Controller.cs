@@ -24,6 +24,10 @@ public class Player_Controller : MonoBehaviour
     public bool sword = false;
     public bool bow = true;
     [SerializeField] private GameObject projectile;
+    public HealthBar healthBar;
+    public float maxHealth = 100;
+    public float currentHealth;
+    //public GameObject hp;
 
     void Start()
     {
@@ -32,6 +36,9 @@ public class Player_Controller : MonoBehaviour
         tf = GetComponent<Transform>();
 
         AttackPoint = GameObject.Find("attackpoint").GetComponent<Transform>();
+
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
 
     }
 
@@ -108,6 +115,12 @@ public class Player_Controller : MonoBehaviour
         }
     }
 
+    public void TakeDamage(float dmg)
+    {
+        currentHealth -= dmg;
+        healthBar.SetHealth(currentHealth);
+        Debug.Log("player took dmg");
+    }
 
 
     //draws hitbox

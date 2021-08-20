@@ -8,20 +8,30 @@ public class Enemy : MonoBehaviour
     [SerializeField] public float maxHealth;
     [SerializeField] private float currentHealth;
     [SerializeField] private string Name;
-    [SerializeField] private float attack;
+    [SerializeField] private float dmg;
     [SerializeField] private float ms;
-    [SerializeField] private float asp;
+    [SerializeField] private float asp=0.5f;
     [SerializeField] private float detectionRange=2.5f;
+    [SerializeField] private float attackrange = 0.2f;
+    private float nextattack = 0f;
+    [SerializeField] private Transform attackpoint;
 
     [SerializeField] private bool detected=false;
+    [SerializeField] private bool attacking = false;
 
     [SerializeField] private LayerMask EnemyLayers;
     private Rigidbody2D rb;
-    private GameObject player;
+
+    [SerializeField]private GameObject player;
+
+
+    private enum Stance {move, attack }
+    private Stance stance = Stance.move;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        player = GameObject.Find("Player");
+        //player = GameObject.Find("Player");
 
         Name = this.name.Split(char.Parse(" "))[0];
 
@@ -33,15 +43,15 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         
-        Collider2D[] HitEnemies = Physics2D.OverlapCircleAll(transform.position, detectionRange, EnemyLayers);
+        Collider2D[] Denem = Physics2D.OverlapCircleAll(transform.position, detectionRange, EnemyLayers);
 
-        if (HitEnemies.Length >0)
+        if (Denem.Length >0)
         {
             detected = true;
         }
 
         Movement();
-
+        Attack();
     }
 
 
@@ -57,7 +67,7 @@ public class Enemy : MonoBehaviour
             if (n.name == Name)
             {
                 maxHealth = n.HP * lvl;
-                attack = n.Damage * lvl;
+                dmg = n.Damage * lvl;
                 asp = n.AttackSpeed * lvl;
                 ms = n.MovementSpeed * lvl;
 
@@ -69,7 +79,7 @@ public class Enemy : MonoBehaviour
 
     private void Movement()
     {
-        if (detected == false)
+        if (detected == false || stance != 0)
         {
             return;
         }
@@ -88,6 +98,33 @@ public class Enemy : MonoBehaviour
         }
 
     }
+
+    void Attack()
+    {
+        Collider2D[] HitEnemies = Physics2D.OverlapCircleAll(attackpoint.position, attackrange, EnemyLayers);
+
+        if (HitEnemies.Length < 1 || nextattack > Time.time)
+        {
+            return;
+        }
+
+        stance = Stance.attack;
+
+        nextattack = Time.time + 1f / asp;
+
+
+        //damage them each
+        foreach (Collider2D enemy in HitEnemies)
+        {
+            Debug.Log("we hit " + enemy.name);
+            enemy.GetComponent<Player_Controller>().TakeDamage(dmg);
+            
+        }
+
+
+        stance = Stance.move;
+    }
+
 
 
 
@@ -121,9 +158,9 @@ public class Enemy : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        if (transform.position != null)
+        if (attackpoint != null)
         {
-            Gizmos.DrawWireSphere(transform.position, detectionRange);
+            Gizmos.DrawWireSphere(attackpoint.position, attackrange);
         }
     }
 }
