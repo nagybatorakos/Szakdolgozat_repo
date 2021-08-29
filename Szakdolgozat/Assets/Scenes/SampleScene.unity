@@ -3085,6 +3085,7 @@ GameObject:
   m_Component:
   - component: {fileID: 600406118}
   - component: {fileID: 600406119}
+  - component: {fileID: 600406120}
   m_Layer: 0
   m_Name: GameObject (3)
   m_TagString: Untagged
@@ -3157,6 +3158,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &600406120
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600406117}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ad581bc5507cf3941b980d78c9139d33, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &977120331
 GameObject:
   m_ObjectHideFlags: 0
@@ -3233,6 +3253,7 @@ MonoBehaviour:
   healthBar: {fileID: 1021336782}
   maxHealth: 100
   currentHealth: 0
+  anim: {fileID: 600406120}
 --- !u!70 &977120334
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -3379,7 +3400,6 @@ MonoBehaviour:
   attackrange: 0.4
   attackpoint: {fileID: 1829072527}
   detected: 0
-  attacking: 0
   EnemyLayers:
     serializedVersion: 2
     m_Bits: 1024
@@ -3767,7 +3787,6 @@ MonoBehaviour:
   attackrange: 2.5
   attackpoint: {fileID: 0}
   detected: 0
-  attacking: 0
   EnemyLayers:
     serializedVersion: 2
     m_Bits: 1024

@@ -9,7 +9,6 @@ public class Player_Controller : MonoBehaviour
     [SerializeField] private float MovementSpeed = 5f;
     [SerializeField] private float Jumpheight = 5f;
 
-    private Animator anim;
 
     //attack
     private Transform AttackPoint;
@@ -29,11 +28,18 @@ public class Player_Controller : MonoBehaviour
     public float currentHealth;
     //public GameObject hp;
 
+
+    private enum State { idle, run, attack, roll, die }
+    private State stance = State.idle;
+
+    [SerializeField] private Animator anim;
+
     void Start()
     {
 
         rb = GetComponent<Rigidbody2D>();
         tf = GetComponent<Transform>();
+        
 
         AttackPoint = GameObject.Find("attackpoint").GetComponent<Transform>();
 
@@ -46,24 +52,31 @@ public class Player_Controller : MonoBehaviour
     void Update()
     {
         Movement();
+        
+        anim.SetInteger("state", (int)stance);
 
     }
 
 
     private void Movement() 
     {
+        
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             rb.velocity = new Vector2(MovementSpeed * -1, rb.velocity.y);
             //tf.position = new Vector3(tf.position.x - 0.2f, tf.position.y, tf.position.z);
             tf.localScale = new Vector2(-1, 1);
+            stance = State.run;
         }
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
             rb.velocity = new Vector2(MovementSpeed, rb.velocity.y);
             tf.localScale = new Vector2(1, 1);
+            stance = State.run;
         }
+
+
 
         //if (Input.GetKeyUp(KeyCode.LeftArrow) | Input.GetKeyUp(KeyCode.RightArrow))
         //{
@@ -79,6 +92,7 @@ public class Player_Controller : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                stance = State.attack;
                 Attack();
                 nextAttackTime = Time.time + 1f / attackRate;
             }
@@ -111,7 +125,7 @@ public class Player_Controller : MonoBehaviour
             //damage collided
             //Debug.Log("we hit " + enemy.name);
             //enemy.GetComponent<Enemy>().TakeDamage(AttackDamage);
-
+            
         }
     }
 

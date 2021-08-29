@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Transform attackpoint;
 
     [SerializeField] private bool detected=false;
-    [SerializeField] private bool attacking = false;
+    
 
     [SerializeField] private LayerMask EnemyLayers;
     private Rigidbody2D rb;
