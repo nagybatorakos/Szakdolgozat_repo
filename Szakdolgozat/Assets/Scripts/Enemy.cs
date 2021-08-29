@@ -154,6 +154,7 @@ public class Enemy : MonoBehaviour
         Debug.Log("Enemy died");
         //die anim
         //disable enemy
+        Destroy(gameObject);
     }
 
     private void OnDrawGizmosSelected()

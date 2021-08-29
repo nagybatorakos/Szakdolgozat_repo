@@ -3086,6 +3086,7 @@ GameObject:
   - component: {fileID: 600406118}
   - component: {fileID: 600406119}
   - component: {fileID: 600406120}
+  - component: {fileID: 600406121}
   m_Layer: 0
   m_Name: GameObject (3)
   m_TagString: Untagged
@@ -3177,6 +3178,24 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &600406121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600406117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9de76c360a3834e9b389f65d70e13a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  coll: {fileID: 0}
+  player: {fileID: 977120331}
+  stance: 0
+  pc: {fileID: 977120333}
+  anim: {fileID: 0}
 --- !u!1 &977120331
 GameObject:
   m_ObjectHideFlags: 0
@@ -3193,7 +3212,7 @@ GameObject:
   - component: {fileID: 977120332}
   m_Layer: 10
   m_Name: Player (1)
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3238,6 +3257,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   tf: {fileID: 0}
+  coll: {fileID: 0}
   MovementSpeed: 3
   Jumpheight: 6
   AttackRange: 0.4
@@ -3253,7 +3273,11 @@ MonoBehaviour:
   healthBar: {fileID: 1021336782}
   maxHealth: 100
   currentHealth: 0
-  anim: {fileID: 600406120}
+  anim: {fileID: 600406121}
+  go: {fileID: 0}
+  ground:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!70 &977120334
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -3928,7 +3952,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1416746007}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.741, y: -0.019, z: 0}
+  m_LocalPosition: {x: 0.218, y: -0.019, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 977120337}

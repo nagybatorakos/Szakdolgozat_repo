@@ -6,6 +6,8 @@ public class Player_Controller : MonoBehaviour
 {
     public Rigidbody2D rb;
     public Transform tf;
+    public Collider2D coll;
+
     [SerializeField] private float MovementSpeed = 5f;
     [SerializeField] private float Jumpheight = 5f;
 
@@ -29,17 +31,16 @@ public class Player_Controller : MonoBehaviour
     //public GameObject hp;
 
 
-    private enum State { idle, run, attack, roll, die }
-    private State stance = State.idle;
-
-    [SerializeField] private Animator anim;
+    public AnimatorController anim;
+    [SerializeField] private GameObject go;
+    [SerializeField] private LayerMask ground;
 
     void Start()
     {
-
+        
         rb = GetComponent<Rigidbody2D>();
         tf = GetComponent<Transform>();
-        
+        coll = GetComponent<Collider2D>();
 
         AttackPoint = GameObject.Find("attackpoint").GetComponent<Transform>();
 
@@ -52,8 +53,7 @@ public class Player_Controller : MonoBehaviour
     void Update()
     {
         Movement();
-        
-        anim.SetInteger("state", (int)stance);
+
 
     }
 
@@ -66,14 +66,14 @@ public class Player_Controller : MonoBehaviour
             rb.velocity = new Vector2(MovementSpeed * -1, rb.velocity.y);
             //tf.position = new Vector3(tf.position.x - 0.2f, tf.position.y, tf.position.z);
             tf.localScale = new Vector2(-1, 1);
-            stance = State.run;
+            //stance = State.run;
         }
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
             rb.velocity = new Vector2(MovementSpeed, rb.velocity.y);
             tf.localScale = new Vector2(1, 1);
-            stance = State.run;
+            //stance = State.run;
         }
 
 
@@ -86,16 +86,19 @@ public class Player_Controller : MonoBehaviour
         if (Input.GetKey(KeyCode.UpArrow))
         {
             rb.velocity = new Vector2(rb.velocity.x, Jumpheight);
+
+            anim.stance = AnimatorController.State.jump;
         }
 
         if (Time.time >= nextAttackTime)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                stance = State.attack;
+                anim.stance = AnimatorController.State.attack;
                 Attack();
                 nextAttackTime = Time.time + 1f / attackRate;
             }
+
         }
     }
 
@@ -120,8 +123,11 @@ public class Player_Controller : MonoBehaviour
         else if (bow)
         {
             //shoot+ on hit destroy
-            projectile.transform.localScale = new Vector2(transform.localScale.x, transform.localScale.y);
-            Instantiate(projectile, AttackPoint.position, transform.rotation);
+            //projectile.transform.localScale = new Vector2(transform.localScale.x, transform.localScale.y);
+            //Instantiate(projectile, AttackPoint.position, transform.rotation);
+            //SpawnArrow();
+
+
             //damage collided
             //Debug.Log("we hit " + enemy.name);
             //enemy.GetComponent<Enemy>().TakeDamage(AttackDamage);
@@ -135,6 +141,13 @@ public class Player_Controller : MonoBehaviour
         healthBar.SetHealth(currentHealth);
         Debug.Log("player took dmg");
     }
+
+    public void SpawnArrow()
+    {
+        projectile.transform.localScale = new Vector2(transform.localScale.x, transform.localScale.y);
+        Instantiate(projectile, AttackPoint.position, transform.rotation);
+    }
+
 
 
     //draws hitbox
