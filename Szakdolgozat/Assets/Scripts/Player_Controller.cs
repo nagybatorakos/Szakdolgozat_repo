@@ -4,36 +4,46 @@ using UnityEngine;
 
 public class Player_Controller : MonoBehaviour
 {
+    //Class Selected
+    public bool sword = false;
+    public bool bow = true;
+
+
+    //Components
     public Rigidbody2D rb;
     public Transform tf;
     public Collider2D coll;
 
+
+    //Move and jump floats
     [SerializeField] private float MovementSpeed = 5f;
     [SerializeField] private float Jumpheight = 5f;
 
 
-    //attack
+    //Attack variables
     private Transform AttackPoint;
     [SerializeField] private float AttackRange = 0.5f;
     [SerializeField] private float AttackDamage = 20f;
-
     [SerializeField] private float attackRate = 2f;
     [SerializeField] private float nextAttackTime = 0f;
-
-    [SerializeField] private LayerMask EnemyLayers;
-
-    public bool sword = false;
-    public bool bow = true;
     [SerializeField] private GameObject projectile;
+
+
+    //Layers
+    [SerializeField] private LayerMask EnemyLayers;
+    [SerializeField] private LayerMask ground;
+
+
+    //Health
     public HealthBar healthBar;
     public float maxHealth = 100;
     public float currentHealth;
-    //public GameObject hp;
+
 
 
     public AnimatorController anim;
-    [SerializeField] private GameObject go;
-    [SerializeField] private LayerMask ground;
+    //[SerializeField] private GameObject go;
+
 
     void Start()
     {
@@ -60,41 +70,36 @@ public class Player_Controller : MonoBehaviour
 
     private void Movement() 
     {
-        
+
+        //Horizontal Movement
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             rb.velocity = new Vector2(MovementSpeed * -1, rb.velocity.y);
-            //tf.position = new Vector3(tf.position.x - 0.2f, tf.position.y, tf.position.z);
             tf.localScale = new Vector2(-1, 1);
-            //stance = State.run;
+
         }
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
             rb.velocity = new Vector2(MovementSpeed, rb.velocity.y);
             tf.localScale = new Vector2(1, 1);
-            //stance = State.run;
+
         }
 
 
-
-        //if (Input.GetKeyUp(KeyCode.LeftArrow) | Input.GetKeyUp(KeyCode.RightArrow))
-        //{
-            //rb.velocity = new Vector2(0f, rb.velocity.y);
-        //}
-
-        if (Input.GetKey(KeyCode.UpArrow))
+        //Jumping
+        if (Input.GetKey(KeyCode.UpArrow) && coll.IsTouchingLayers(ground))
         {
             rb.velocity = new Vector2(rb.velocity.x, Jumpheight);
 
-            anim.stance = AnimatorController.State.jump;
         }
 
+
+        //Attack
         if (Time.time >= nextAttackTime)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                anim.stance = AnimatorController.State.attack;
                 Attack();
                 nextAttackTime = Time.time + 1f / attackRate;
             }

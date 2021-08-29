@@ -4,25 +4,35 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+
+    //Stat variables
     [SerializeField] public float lvl = 1;
     [SerializeField] public float maxHealth;
     [SerializeField] private float currentHealth;
     [SerializeField] private string Name;
     [SerializeField] private float dmg;
     [SerializeField] private float ms;
+
+
+    //Attack variables
     [SerializeField] private float asp=0.5f;
     [SerializeField] private float detectionRange=2.5f;
     [SerializeField] private float attackrange = 0.2f;
+    [SerializeField] private bool detected=false;
     private float nextattack = 0f;
+
+
+    //Components
+    [SerializeField] private Collider2D jumppoint;
+    private Rigidbody2D rb;
+    private Collider2D coll;
+    [SerializeField]private GameObject player;
     [SerializeField] private Transform attackpoint;
 
-    [SerializeField] private bool detected=false;
-    
 
+    //Layers
     [SerializeField] private LayerMask EnemyLayers;
-    private Rigidbody2D rb;
-
-    [SerializeField]private GameObject player;
+    [SerializeField] private LayerMask ground;
 
 
     private enum Stance {move, attack }
@@ -30,19 +40,21 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+        coll = GetComponent<Collider2D>();
         rb = GetComponent<Rigidbody2D>();
-        //player = GameObject.Find("Player");
-
+        
+        //stat inserting
         Name = this.name.Split(char.Parse(" "))[0];
-
         Search();
+
+
         currentHealth = maxHealth;
     }
 
 
     void Update()
     {
-        
+        //Player detection
         Collider2D[] Denem = Physics2D.OverlapCircleAll(transform.position, detectionRange, EnemyLayers);
 
         if (Denem.Length >0)
@@ -84,7 +96,6 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        //transform.position = Vector3.Lerp(transform.position, player.transform.position, 0.5f * Time.deltaTime);
         if (transform.position.x-player.transform.position.x>0.8f)
         {
             rb.velocity = new Vector2(-1*ms, rb.velocity.y);
@@ -95,6 +106,11 @@ public class Enemy : MonoBehaviour
         {
             rb.velocity = new Vector2(ms, rb.velocity.y);
             transform.localScale = new Vector2(1, 1);
+        }
+
+        if (jumppoint.IsTouchingLayers(ground) && coll.IsTouchingLayers(ground))
+        {
+            rb.velocity = new Vector2(rb.velocity.x, 6f);
         }
 
     }
