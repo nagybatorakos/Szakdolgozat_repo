@@ -3190,15 +3190,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a9de76c360a3834e9b389f65d70e13a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  coll: {fileID: 0}
+  rb: {fileID: 977120335}
+  coll: {fileID: 977120334}
   player: {fileID: 977120331}
-  stance: 0
   pc: {fileID: 977120333}
   anim: {fileID: 0}
   ground:
     serializedVersion: 2
     m_Bits: 128
+  stance: 0
+  walkSpeed: 5
+  groundMask: 0
+  isJumpPressed: 0
+  isGrounded: 0
+  isAttackPressed: 0
+  isAttacking: 0
+  isRollPressed: 0
+  attackDelay: 0.3
 --- !u!1 &977120331
 GameObject:
   m_ObjectHideFlags: 0
@@ -3258,6 +3266,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0db6ab8aa4f797e44ae8aa18c62589d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sword: 0
+  bow: 1
   rb: {fileID: 0}
   tf: {fileID: 0}
   coll: {fileID: 0}
@@ -3267,19 +3277,17 @@ MonoBehaviour:
   AttackDamage: 20
   attackRate: 2
   nextAttackTime: 0
+  projectile: {fileID: 4821973587298449969, guid: dcc047a5b3162424690fa34e79c4a313, type: 3}
   EnemyLayers:
     serializedVersion: 2
     m_Bits: 2048
-  sword: 0
-  bow: 1
-  projectile: {fileID: 4821973587298449969, guid: dcc047a5b3162424690fa34e79c4a313, type: 3}
-  healthBar: {fileID: 1021336782}
-  maxHealth: 100
-  currentHealth: 0
-  anim: {fileID: 600406121}
   ground:
     serializedVersion: 2
     m_Bits: 128
+  healthBar: {fileID: 1021336782}
+  maxHealth: 100
+  currentHealth: 0
+  anim: {fileID: 0}
 --- !u!70 &977120334
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -3424,13 +3432,13 @@ MonoBehaviour:
   asp: 0
   detectionRange: 2.5
   attackrange: 0.4
-  attackpoint: {fileID: 1829072527}
   detected: 0
+  jumppoint: {fileID: 1786305969}
+  player: {fileID: 977120331}
+  attackpoint: {fileID: 1829072527}
   EnemyLayers:
     serializedVersion: 2
     m_Bits: 1024
-  player: {fileID: 977120331}
-  jumppoint: {fileID: 1786305969}
   ground:
     serializedVersion: 2
     m_Bits: 128
@@ -3816,13 +3824,13 @@ MonoBehaviour:
   asp: 0
   detectionRange: 2
   attackrange: 2.5
-  attackpoint: {fileID: 0}
   detected: 0
+  jumppoint: {fileID: 0}
+  player: {fileID: 0}
+  attackpoint: {fileID: 0}
   EnemyLayers:
     serializedVersion: 2
     m_Bits: 1024
-  player: {fileID: 0}
-  jumppoint: {fileID: 0}
   ground:
     serializedVersion: 2
     m_Bits: 0

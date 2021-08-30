@@ -4,109 +4,162 @@ using UnityEngine;
 
 public class AnimatorController : MonoBehaviour
 {
-    public Rigidbody2D rb;
-    public Collider2D coll;
+
     public GameObject player;
-    public Player_Controller pc;
+
+    private Rigidbody2D rb;
+    private Collider2D coll;
     [SerializeField] private Animator anim;
     [SerializeField] private LayerMask ground;
 
-    public enum State { idle, run, attack, roll, die, rise, fall }
-    public State stance = State.idle;
+    public enum State { Idle_bow, Run_bow, Roll_bow, Rise_bow, Fall_bow, Attack_bow, Die_bow }
+    public State CurrentState = State.Idle_bow;
+    public State NewState = State.Idle_bow;
 
 
 
-    // Start is called before the first frame update
+
+
+
+    [SerializeField]private float xAxis;
+
+
+
+
+    [SerializeField] private bool isComplete;
+    [SerializeField] private bool isGrounded;
+
+    [SerializeField] private bool isRisen = false;
+    [SerializeField] private bool isAttackPressed;
+    [SerializeField] private bool isRollPressed;
+
+
+
+    
+
+
+
     void Start()
     {
-        anim = GetComponent<Animator>();
         rb = player.GetComponent<Rigidbody2D>();
         coll = player.GetComponent<Collider2D>();
+        anim = GetComponent<Animator>();
 
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        AnimationState();
-        anim.SetInteger("state", (int)stance);
 
     }
 
 
-    private void AnimationState()
+
+    private void Update()
     {
-        if (stance == State.attack)
+        xAxis = Input.GetAxis("Horizontal");
+
+        if (coll.IsTouchingLayers(ground))
         {
-            return;
+            isGrounded = true;
         }
+        else
+        {
+            isGrounded = false;
+        }
+
+        //############################
+
+         if (CurrentState==State.Fall_bow && isGrounded)
+        {
+            isComplete = true;
+        }
+
+        if (xAxis==0 && isGrounded)
+        {
+            //isComplete = true;
+            if (CurrentState == State.Run_bow)
+            {
+                isComplete = true;
+            }
+            ChangeAnimationState(State.Idle_bow);
+
+        }
+
+        if (xAxis!=0 && isGrounded)
+        {
+            ChangeAnimationState(State.Run_bow);
+            //isComplete = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            ChangeAnimationState(State.Roll_bow);
+            isComplete = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.UpArrow) && isGrounded)
+        {
+            ChangeAnimationState(State.Rise_bow);
+            isComplete = false;
+            isRisen = true;
+        }
+
+        if (isRisen) 
+        { 
+            if (rb.velocity.y < 0f)
+            {
+                ChangeAnimationState(State.Fall_bow);
+                isRisen = false;
+            }   
+        }
+
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            stance = State.attack;
-        }
-        else if (Input.GetKey(KeyCode.UpArrow))
+            ChangeAnimationState(State.Attack_bow);
+            isComplete = false;
+        } 
+
+    }
+
+    private void FixedUpdate()
+    {
+
+    }
+
+
+
+    public void AnimationComplete()
+    {
+        isComplete = true;
+    }
+
+
+    void ChangeAnimationState(State newState)
+    {
+        if (!isComplete)
         {
-            stance = State.rise;
-        }
-        else if (Input.GetAxis("Horizontal") != 0)
-        {
-            if (Input.GetKeyDown(KeyCode.DownArrow))
+            if (((int)newState)>((int)CurrentState))
             {
-                stance = State.roll;
+                anim.Play(newState.ToString());
+                CurrentState = newState;
             }
             else
             {
-                stance = State.run;
+                return;
             }
 
         }
-
-
-
-
-        if (stance == State.rise)
+        else
         {
-            if (rb.velocity.y < .2f)
-            {
-                stance = State.fall;
-            }
-        }
-        else if (stance == State.fall)
-        {
-            if (coll.IsTouchingLayers(ground))
-            {
-                stance = State.idle;
-                //audio.landing();
-            }
+            anim.Play(newState.ToString());
+            CurrentState = newState;
         }
 
-        //if (Mathf.Abs(rb.velocity.x) > .2f)
-        //{
-        //    if (stance == State.roll)
-        //    {
-        //        return;
-        //    }
-        //    stance = State.run;
-        //}
-        else if (Mathf.Abs(rb.velocity.x) < .2f)
-        {
-            stance = State.idle;
-        }
     }
 
-    private void SetIdle()
-    {
-        stance = State.idle;
-    }
 
     public void SpawnArrow()
     {
-        pc.SpawnArrow();
+        player.GetComponent<Player_Controller>().SpawnArrow();
     }
 
-    public void Roll()
-    {
-
-    }
 
 }
