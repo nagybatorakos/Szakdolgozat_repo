@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float detectionRange=2.5f;
     [SerializeField] private float attackrange = 0.2f;
     [SerializeField] private bool detected=false;
-    private float nextattack = 0f;
+    public float nextattack = 0f;
 
 
     //Components
@@ -34,9 +34,11 @@ public class Enemy : MonoBehaviour
     [SerializeField] private LayerMask EnemyLayers;
     [SerializeField] private LayerMask ground;
 
+    public Animator_Enemy anim;
+    private bool attackended;
 
-    private enum Stance {move, attack }
-    private Stance stance = Stance.move;
+    public enum Stance {move, attack }
+    public Stance stance = Stance.move;
 
     void Start()
     {
@@ -54,6 +56,8 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
+        
+
         //Player detection
         Collider2D[] Denem = Physics2D.OverlapCircleAll(transform.position, detectionRange, EnemyLayers);
 
@@ -63,7 +67,7 @@ public class Enemy : MonoBehaviour
         }
 
         Movement();
-        Attack();
+        //Attack();
     }
 
 
@@ -91,21 +95,35 @@ public class Enemy : MonoBehaviour
 
     private void Movement()
     {
-        if (detected == false || stance != 0)
+        //if (detected == false || stance != 0)
+        //{
+        //    return;
+        //}
+
+
+        if(detected==false || !anim.isComplete )
         {
             return;
         }
 
-        if (transform.position.x-player.transform.position.x>0.8f)
+        //transform.localScale = player.transform.localScale;
+
+        if (transform.position.x-player.transform.position.x>0.9f)
         {
+            stance = Stance.move;
             rb.velocity = new Vector2(-1*ms, rb.velocity.y);
             transform.localScale = new Vector2(-1, 1);
         }
 
-        else if (transform.position.x - player.transform.position.x < -0.8f) 
+        else if (transform.position.x - player.transform.position.x < -0.9f) 
         {
+            stance = Stance.move;
             rb.velocity = new Vector2(ms, rb.velocity.y);
             transform.localScale = new Vector2(1, 1);
+        }
+        else
+        {
+            stance = Stance.attack;
         }
 
         if (jumppoint.IsTouchingLayers(ground) && coll.IsTouchingLayers(ground))
@@ -115,7 +133,7 @@ public class Enemy : MonoBehaviour
 
     }
 
-    void Attack()
+    public void Attack()
     {
         Collider2D[] HitEnemies = Physics2D.OverlapCircleAll(attackpoint.position, attackrange, EnemyLayers);
 
@@ -124,7 +142,7 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        stance = Stance.attack;
+        //stance = Stance.attack;
 
         nextattack = Time.time + 1f / asp;
 
@@ -138,7 +156,7 @@ public class Enemy : MonoBehaviour
         }
 
 
-        stance = Stance.move;
+        //stance = Stance.move;
     }
 
 
