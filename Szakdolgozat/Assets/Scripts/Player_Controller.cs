@@ -88,7 +88,7 @@ public class Player_Controller : MonoBehaviour
 
 
         //Jumping
-        if (Input.GetKey(KeyCode.UpArrow) && coll.IsTouchingLayers(ground))
+        if (Input.GetKeyDown(KeyCode.UpArrow) && coll.IsTouchingLayers(ground))
         {
             rb.velocity = new Vector2(rb.velocity.x, Jumpheight);
 

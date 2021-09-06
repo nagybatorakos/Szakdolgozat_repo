@@ -21,7 +21,7 @@ public class AnimatorController : MonoBehaviour
 
 
 
-    [SerializeField]private float xAxis;
+    [SerializeField] private float xAxis;
 
 
 
@@ -35,7 +35,7 @@ public class AnimatorController : MonoBehaviour
 
 
 
-    
+
 
 
 
@@ -66,27 +66,43 @@ public class AnimatorController : MonoBehaviour
 
         //############################
 
-         if (CurrentState==State.Fall_bow && isGrounded)
+        if (isGrounded)
         {
-            isComplete = true;
-        }
+            if (xAxis == 0)
+            {
+                //isComplete = true;
+                if (CurrentState == State.Run_bow)
+                {
+                    isComplete = true;
+                }
+                ChangeAnimationState(State.Idle_bow);
 
-        if (xAxis==0 && isGrounded)
-        {
-            //isComplete = true;
-            if (CurrentState == State.Run_bow)
+            }
+
+            if (xAxis != 0)
+            {
+                ChangeAnimationState(State.Run_bow);
+                //isComplete = false;
+            }
+
+            if (CurrentState == State.Fall_bow)
             {
                 isComplete = true;
             }
-            ChangeAnimationState(State.Idle_bow);
+
+
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                ChangeAnimationState(State.Rise_bow);
+                isComplete = false;
+                isRisen = true;
+            }
+
+
 
         }
 
-        if (xAxis!=0 && isGrounded)
-        {
-            ChangeAnimationState(State.Run_bow);
-            //isComplete = false;
-        }
+
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
@@ -94,20 +110,14 @@ public class AnimatorController : MonoBehaviour
             isComplete = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) && isGrounded)
-        {
-            ChangeAnimationState(State.Rise_bow);
-            isComplete = false;
-            isRisen = true;
-        }
 
-        if (isRisen) 
-        { 
+        if (isRisen)
+        {
             if (rb.velocity.y < 0f)
             {
                 ChangeAnimationState(State.Fall_bow);
                 isRisen = false;
-            }   
+            }
         }
 
 
@@ -115,7 +125,7 @@ public class AnimatorController : MonoBehaviour
         {
             ChangeAnimationState(State.Attack_bow);
             isComplete = false;
-        } 
+        }
 
     }
 
@@ -136,7 +146,7 @@ public class AnimatorController : MonoBehaviour
     {
         if (!isComplete)
         {
-            if (((int)newState)>((int)CurrentState))
+            if (((int)newState) > ((int)CurrentState))
             {
                 anim.Play(newState.ToString());
                 CurrentState = newState;

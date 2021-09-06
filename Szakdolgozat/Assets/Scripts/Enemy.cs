@@ -15,10 +15,10 @@ public class Enemy : MonoBehaviour
 
 
     //Attack variables
-    [SerializeField] private float asp=0.5f;
-    [SerializeField] private float detectionRange=2.5f;
+    [SerializeField] private float asp = 0.5f;
+    [SerializeField] private float detectionRange = 2.5f;
     [SerializeField] private float attackrange = 0.2f;
-    [SerializeField] private bool detected=false;
+    public bool detected = false;
     public float nextattack = 0f;
 
 
@@ -26,7 +26,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Collider2D jumppoint;
     private Rigidbody2D rb;
     private Collider2D coll;
-    [SerializeField]private GameObject player;
+    [SerializeField] private GameObject player;
     [SerializeField] private Transform attackpoint;
 
 
@@ -37,14 +37,16 @@ public class Enemy : MonoBehaviour
     public Animator_Enemy anim;
     private bool attackended;
 
-    public enum Stance {move, attack }
+    public bool isDead = false;
+
+    public enum Stance { move, attack }
     public Stance stance = Stance.move;
 
     void Start()
     {
         coll = GetComponent<Collider2D>();
         rb = GetComponent<Rigidbody2D>();
-        
+
         //stat inserting
         Name = this.name.Split(char.Parse(" "))[0];
         Search();
@@ -56,29 +58,31 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        
-
-        //Player detection
-        Collider2D[] Denem = Physics2D.OverlapCircleAll(transform.position, detectionRange, EnemyLayers);
-
-        if (Denem.Length >0)
+        if (isDead)
         {
-            detected = true;
+            rb.velocity = new Vector2(0, 0);
+            return;
+        }
+        else
+        {
+            //Player detection
+            DetectPlayer();
+
+            Movement();
+            //Attack();
         }
 
-        Movement();
-        //Attack();
     }
 
 
     public void Search()
-    { 
+    {
         Stats[] elemek = GameObject.Find("GameObject").GetComponent<Stat_DB>().stats;
 
 
         //Component elem = GameObject.Find("GameObject").GetComponent<Stat_DB>();
 
-        foreach(Stats n in elemek)
+        foreach (Stats n in elemek)
         {
             if (n.name == Name)
             {
@@ -90,40 +94,44 @@ public class Enemy : MonoBehaviour
                 break;
             }
         }
-    
+
     }
 
     private void Movement()
     {
-        //if (detected == false || stance != 0)
-        //{
-        //    return;
-        //}
 
-
-        if(detected==false || !anim.isComplete )
+        if (detected == false || !anim.isComplete)
         {
             return;
         }
 
-        //transform.localScale = player.transform.localScale;
-
-        if (transform.position.x-player.transform.position.x>0.9f)
+        if (Vector2.Distance(player.transform.position, transform.position)< .7f)
         {
-            stance = Stance.move;
-            rb.velocity = new Vector2(-1*ms, rb.velocity.y);
+            rb.velocity = new Vector2(0, 0);
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            return;
+        }
+
+        if (transform.position.x - player.transform.position.x > 0)
+        {
+            rb.constraints = RigidbodyConstraints2D.None;
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            //stance = Stance.move;
+            rb.velocity = new Vector2(-1 * ms, rb.velocity.y);
             transform.localScale = new Vector2(-1, 1);
         }
 
-        else if (transform.position.x - player.transform.position.x < -0.9f) 
+        else if (transform.position.x - player.transform.position.x < 0)
         {
-            stance = Stance.move;
+            rb.constraints = RigidbodyConstraints2D.None;
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            //stance = Stance.move;
             rb.velocity = new Vector2(ms, rb.velocity.y);
             transform.localScale = new Vector2(1, 1);
         }
         else
         {
-            stance = Stance.attack;
+            //stance = Stance.attack;
         }
 
         if (jumppoint.IsTouchingLayers(ground) && coll.IsTouchingLayers(ground))
@@ -152,18 +160,14 @@ public class Enemy : MonoBehaviour
         {
             Debug.Log("we hit " + enemy.name);
             enemy.GetComponent<Player_Controller>().TakeDamage(dmg);
-            
+
         }
 
 
         //stance = Stance.move;
     }
 
-
-
-
-
-    public void TakeDamage(float damage) 
+    public void TakeDamage(float damage)
     {
         currentHealth -= damage;
 
@@ -174,22 +178,26 @@ public class Enemy : MonoBehaviour
         {
             k = hpbar.localScale.x;
         }
-        hpbar.localScale = new Vector3(hpbar.localScale.x -k, hpbar.localScale.y, hpbar.localScale.z);
+        hpbar.localScale = new Vector3(hpbar.localScale.x - k, hpbar.localScale.y, hpbar.localScale.z);
         //hurt animation
 
-        if (currentHealth <= 0) 
+        if (currentHealth <= 0)
         {
-            Die();
+            isDead = true;
+            anim.Die();
         }
     }
 
-    void Die() 
+    private void DetectPlayer()
     {
-        Debug.Log("Enemy died");
-        //die anim
-        //disable enemy
-        Destroy(gameObject);
+        Collider2D[] Denem = Physics2D.OverlapCircleAll(transform.position, detectionRange, EnemyLayers);
+
+        if (Denem.Length > 0)
+        {
+            detected = true;
+        }
     }
+
 
     private void OnDrawGizmosSelected()
     {
