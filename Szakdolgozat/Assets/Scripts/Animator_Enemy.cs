@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class Animator_Enemy : MonoBehaviour
 {
-
     public GameObject enemy;
     public GameObject deadsprite;
-    private Rigidbody2D rb;
-    private Collider2D coll;
-    [SerializeField] private Animator anim;
-    [SerializeField] private LayerMask ground;
+    private protected Rigidbody2D rb;
+    private protected Collider2D coll;
+    [SerializeField] private protected Animator anim;
+    [SerializeField] private protected LayerMask ground;
 
     public enum State { Idle, Run, Jump, Fall, Attack_1, Die }
     public State CurrentState = State.Idle;
@@ -27,71 +26,28 @@ public class Animator_Enemy : MonoBehaviour
 
 
     public bool isComplete = true;
-    [SerializeField] private bool isGrounded;
+    [SerializeField] private protected bool isGrounded;
 
     //[SerializeField] private bool isRisen = false;
     //[SerializeField] private bool isAttackPressed;
     //[SerializeField] private bool isRollPressed;
 
-    public Enemy sc;
 
-
+    //public EnemyRanged sc;
+    //public object sc;
 
 
 
     void Start()
     {
-        rb = enemy.GetComponent<Rigidbody2D>();
-        coll = enemy.GetComponent<Collider2D>();
-        anim = GetComponent<Animator>();
-        sc = enemy.GetComponent<Enemy>();
 
-        isComplete = true;
     }
 
 
 
     private void Update()
     {
-
-        Debug.Log(isComplete);
-        if (coll.IsTouchingLayers(ground))
-        {
-            isGrounded = true;
-        }
-        else
-        {
-            isGrounded = false;
-        }
-
-
-        if (isGrounded)
-        {
-            if (isComplete)
-            {
-                if (rb.velocity.x != 0)
-                {
-                    ChangeAnimationState(State.Run);
-                    //sc.nextattackal valami h varjon
-                }
-
-                else if (sc.nextattack < Time.time && sc.detected)
-                {
-
-                    //isComplete = false;
-                    ChangeAnimationState(State.Attack_1);
-
-                }
-            }
-
-
-        }
-
-    }
-
-    public void ScAttack()
-    {
-        sc.Attack();
+        
     }
 
     public void AnimationStart()
@@ -145,5 +101,4 @@ public class Animator_Enemy : MonoBehaviour
         }
 
     }
-
 }

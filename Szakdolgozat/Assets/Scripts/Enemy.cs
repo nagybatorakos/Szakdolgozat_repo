@@ -8,72 +8,53 @@ public class Enemy : MonoBehaviour
     //Stat variables
     [SerializeField] public float lvl = 1;
     [SerializeField] public float maxHealth;
-    [SerializeField] private float currentHealth;
-    [SerializeField] private string Name;
-    [SerializeField] private float dmg;
-    [SerializeField] private float ms;
+    [SerializeField] private protected float currentHealth;
+    [SerializeField] private protected string Name;
+    [SerializeField] private protected float dmg;
+    [SerializeField] private protected float ms;
 
 
     //Attack variables
-    [SerializeField] private float asp = 0.5f;
-    [SerializeField] private float detectionRange = 2.5f;
-    [SerializeField] private float attackrange = 0.2f;
+    [SerializeField] private protected float asp = 0.5f;
+    [SerializeField] private protected float detectionRange = 2.5f;
+    [SerializeField] private protected float attackrange = 0.2f;
     public bool detected = false;
     public float nextattack = 0f;
 
 
     //Components
-    [SerializeField] private Collider2D jumppoint;
-    private Rigidbody2D rb;
-    private Collider2D coll;
-    [SerializeField] private GameObject player;
-    [SerializeField] private Transform attackpoint;
+    [SerializeField] private protected Collider2D jumppoint;
+    private protected Rigidbody2D rb;
+    private protected Collider2D coll;
+    [SerializeField] private protected GameObject player;
+    [SerializeField] private protected Transform attackpoint;
+
+    private protected RectTransform hpbar;
 
 
     //Layers
-    [SerializeField] private LayerMask EnemyLayers;
-    [SerializeField] private LayerMask ground;
+    [SerializeField] private protected LayerMask EnemyLayers;
+    [SerializeField] private protected LayerMask ground;
 
     public Animator_Enemy anim;
-    private bool attackended;
+    private protected bool attackended;
 
     public bool isDead = false;
 
     public enum Stance { move, attack }
     public Stance stance = Stance.move;
 
+    // Start is called before the first frame update
     void Start()
     {
-        coll = GetComponent<Collider2D>();
-        rb = GetComponent<Rigidbody2D>();
-
-        //stat inserting
-        Name = this.name.Split(char.Parse(" "))[0];
-        Search();
-
-
-        currentHealth = maxHealth;
+        
     }
 
-
+    // Update is called once per frame
     void Update()
     {
-        if (isDead)
-        {
-            rb.velocity = new Vector2(0, 0);
-            return;
-        }
-        else
-        {
-            //Player detection
-            DetectPlayer();
-
-            Movement();
-            //Attack();
-        }
-
+        
     }
-
 
     public void Search()
     {
@@ -97,83 +78,13 @@ public class Enemy : MonoBehaviour
 
     }
 
-    private void Movement()
-    {
-
-        if (detected == false || !anim.isComplete)
-        {
-            return;
-        }
-
-        if (Vector2.Distance(player.transform.position, transform.position)< .7f)
-        {
-            rb.velocity = new Vector2(0, 0);
-            rb.constraints = RigidbodyConstraints2D.FreezeAll;
-            return;
-        }
-
-        if (transform.position.x - player.transform.position.x > 0)
-        {
-            rb.constraints = RigidbodyConstraints2D.None;
-            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-            //stance = Stance.move;
-            rb.velocity = new Vector2(-1 * ms, rb.velocity.y);
-            transform.localScale = new Vector2(-1, 1);
-        }
-
-        else if (transform.position.x - player.transform.position.x < 0)
-        {
-            rb.constraints = RigidbodyConstraints2D.None;
-            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-            //stance = Stance.move;
-            rb.velocity = new Vector2(ms, rb.velocity.y);
-            transform.localScale = new Vector2(1, 1);
-        }
-        else
-        {
-            //stance = Stance.attack;
-        }
-
-        if (jumppoint.IsTouchingLayers(ground) && coll.IsTouchingLayers(ground))
-        {
-            rb.velocity = new Vector2(rb.velocity.x, 6f);
-        }
-
-    }
-
-    public void Attack()
-    {
-        Collider2D[] HitEnemies = Physics2D.OverlapCircleAll(attackpoint.position, attackrange, EnemyLayers);
-
-        if (HitEnemies.Length < 1 || nextattack > Time.time)
-        {
-            return;
-        }
-
-        //stance = Stance.attack;
-
-        nextattack = Time.time + 1f / asp;
-
-
-        //damage them each
-        foreach (Collider2D enemy in HitEnemies)
-        {
-            Debug.Log("we hit " + enemy.name);
-            enemy.GetComponent<Player_Controller>().TakeDamage(dmg);
-
-        }
-
-
-        //stance = Stance.move;
-    }
-
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
 
         float k = 3.1f * (damage / maxHealth);
 
-        RectTransform hpbar = GameObject.Find("fill").GetComponent<RectTransform>();
+
         if (hpbar.localScale.x < k)
         {
             k = hpbar.localScale.x;
@@ -188,7 +99,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void DetectPlayer()
+    private protected void DetectPlayer()
     {
         Collider2D[] Denem = Physics2D.OverlapCircleAll(transform.position, detectionRange, EnemyLayers);
 
@@ -198,12 +109,4 @@ public class Enemy : MonoBehaviour
         }
     }
 
-
-    private void OnDrawGizmosSelected()
-    {
-        if (attackpoint != null)
-        {
-            Gizmos.DrawWireSphere(attackpoint.position, attackrange);
-        }
-    }
 }

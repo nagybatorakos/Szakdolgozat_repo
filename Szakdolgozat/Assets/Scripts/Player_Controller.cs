@@ -21,7 +21,7 @@ public class Player_Controller : MonoBehaviour
 
 
     //Attack variables
-    private Transform AttackPoint;
+    [SerializeField] private Transform AttackPoint;
     [SerializeField] private float AttackRange = 0.5f;
     [SerializeField] private float AttackDamage = 20f;
     [SerializeField] private float attackRate = 2f;
@@ -52,7 +52,7 @@ public class Player_Controller : MonoBehaviour
         tf = GetComponent<Transform>();
         coll = GetComponent<Collider2D>();
 
-        AttackPoint = GameObject.Find("attackpoint").GetComponent<Transform>();
+        //AttackPoint = GameObject.Find("attackpoint").GetComponent<Transform>();
 
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
