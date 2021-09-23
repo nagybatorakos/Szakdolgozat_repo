@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyRanged : Enemy
 {
+    [SerializeField] private Transform AttackPoint;
+    [SerializeField] private GameObject projectile;
 
     void Start()
     {
@@ -50,6 +52,8 @@ public class EnemyRanged : Enemy
             return;
         }
 
+
+
         if (Vector2.Distance(player.transform.position, transform.position) < .7f)
         {
             rb.velocity = new Vector2(0, 0);
@@ -62,7 +66,7 @@ public class EnemyRanged : Enemy
             rb.constraints = RigidbodyConstraints2D.None;
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
             //stance = Stance.move;
-            rb.velocity = new Vector2(-1 * ms, rb.velocity.y);
+            //rb.velocity = new Vector2(-1 * ms, rb.velocity.y);
             transform.localScale = new Vector2(-1, 1);
         }
 
@@ -71,7 +75,7 @@ public class EnemyRanged : Enemy
             rb.constraints = RigidbodyConstraints2D.None;
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
             //stance = Stance.move;
-            rb.velocity = new Vector2(ms, rb.velocity.y);
+            //rb.velocity = new Vector2(ms, rb.velocity.y);
             transform.localScale = new Vector2(1, 1);
         }
         else
@@ -88,9 +92,11 @@ public class EnemyRanged : Enemy
 
     public void Attack()
     {
-        Collider2D[] HitEnemies = Physics2D.OverlapCircleAll(attackpoint.position, attackrange, EnemyLayers);
+        //Collider2D[] HitEnemies = Physics2D.OverlapCircleAll(attackpoint.position, attackrange, EnemyLayers);
 
-        if (HitEnemies.Length < 1 || nextattack > Time.time)
+        
+
+        if (player.transform.position.y!=transform.position.y || nextattack > Time.time)
         {
             return;
         }
@@ -101,17 +107,24 @@ public class EnemyRanged : Enemy
 
 
         //damage them each
-        foreach (Collider2D enemy in HitEnemies)
-        {
-            Debug.Log("we hit " + enemy.name);
-            enemy.GetComponent<Player_Controller>().TakeDamage(dmg);
+        //foreach (Collider2D enemy in HitEnemies)
+        //{
+        //    Debug.Log("we hit " + enemy.name);
+        //    enemy.GetComponent<Player_Controller>().TakeDamage(dmg);
 
-        }
-
+        //}
+        SpawnArrow();
 
         //stance = Stance.move;
     }
 
+    public void SpawnArrow()
+    {
+        
+        projectile.transform.localScale = new Vector2(transform.localScale.x, transform.localScale.y);
+        Instantiate(projectile, AttackPoint.position, transform.rotation);
+        projectile.GetComponent<Projectile>().player = false;
+    }
 
     private void OnDrawGizmosSelected()
     {

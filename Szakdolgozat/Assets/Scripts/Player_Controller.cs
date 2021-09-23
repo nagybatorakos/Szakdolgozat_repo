@@ -44,6 +44,11 @@ public class Player_Controller : MonoBehaviour
     public AnimatorController anim;
     //[SerializeField] private GameObject go;
 
+    //movement bools
+    [SerializeField] private bool run = false;
+    [SerializeField] private bool rise = false;
+
+
 
     void Start()
     {
@@ -59,39 +64,71 @@ public class Player_Controller : MonoBehaviour
 
     }
 
+
     // Update is called once per frame
-    void Update()
+
+    private void Update()
+    {
+        InputDetection();
+    }
+
+    void FixedUpdate()
     {
         Movement();
 
 
     }
 
+    private void Movement()
+    {
+        if (run)
+        {
+            rb.velocity = new Vector2(MovementSpeed * Input.GetAxis("Horizontal"), rb.velocity.y);
+        }
 
-    private void Movement() 
+        if (rise)
+        {
+            //rb.velocity = new Vector2(rb.velocity.x, Jumpheight);
+        }
+
+    }
+
+    private void InputDetection() 
     {
 
         //Horizontal Movement
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            rb.velocity = new Vector2(MovementSpeed * -1, rb.velocity.y);
+            run = true;
+            //rb.velocity = new Vector2(MovementSpeed * -1, rb.velocity.y);
             tf.localScale = new Vector2(-1, 1);
 
         }
 
-        if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.RightArrow))
         {
-            rb.velocity = new Vector2(MovementSpeed, rb.velocity.y);
+            run = true;
+            //rb.velocity = new Vector2(MovementSpeed, rb.velocity.y);
             tf.localScale = new Vector2(1, 1);
 
+        }
+        else
+        {
+            run = false;
         }
 
 
         //Jumping
         if (Input.GetKeyDown(KeyCode.UpArrow) && coll.IsTouchingLayers(ground))
         {
+            rise = true;
+
             rb.velocity = new Vector2(rb.velocity.x, Jumpheight);
 
+        }
+        else
+        {
+            rise = false;
         }
 
 
@@ -151,6 +188,8 @@ public class Player_Controller : MonoBehaviour
     {
         projectile.transform.localScale = new Vector2(transform.localScale.x, transform.localScale.y);
         Instantiate(projectile, AttackPoint.position, transform.rotation);
+        projectile.GetComponent<Projectile>().player = true;
+        Debug.Log("arrow");
     }
 
 

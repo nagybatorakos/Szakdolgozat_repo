@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 5842647178362440965}
   - component: {fileID: 3778942075894327174}
   - component: {fileID: 2854742130993735236}
-  - component: {fileID: 7012019282839528786}
   - component: {fileID: 4679318371567102078}
+  - component: {fileID: -4181186580791912995}
   m_Layer: 0
-  m_Name: arrow
+  m_Name: arrow_e
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -106,21 +106,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!114 &7012019282839528786
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4821973587298449969}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5cba297e216b3a499995358cd9eafea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  arrow: 1
-  speed: 6
-  damage: 20
 --- !u!70 &4679318371567102078
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -137,3 +122,19 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0.007}
   m_Size: {x: 0.42578125, y: 0.0754688}
   m_Direction: 1
+--- !u!114 &-4181186580791912995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4821973587298449969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40c0ebbe0ca8c4e4f8e034e549b81c88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: 0
+  arrow: 1
+  speed: 4
+  damage: 20

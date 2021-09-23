@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+    public bool player = true;
 
-    private Rigidbody2D rb;
-    public bool arrow= true;
-    [SerializeField] private float speed = 4f;
-    [SerializeField] private float damage = 20f;
+    private protected Rigidbody2D rb;
+    public bool arrow = true;
+    [SerializeField] private protected float speed = 4f;
+    [SerializeField] private protected float damage = 20f;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        
 
 
     }
@@ -21,37 +23,39 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Launch();
+        
     }
 
 
-    private void Launch()
-    {
-        rb.velocity = new Vector3(speed * transform.localScale.x, rb.velocity.y);
+    //private void Launch()
+    //{
+    //    rb.velocity = new Vector3(speed * transform.localScale.x, rb.velocity.y);
 
 
 
 
-    }
+    //}
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == "Player")
-        {
-            return;
-        }
-        //on collision destroy
-        Destroy(gameObject);
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
 
-        //instantiate sprites as children of enemy
+    //    if (collision.tag == "Player")
+    //    {
+    //        return;
+    //    }
+    //    //on collision destroy
+    //    Destroy(gameObject);
 
-        //on collision damage
-        //???whats that?? brackeys 11:45
-        Enemy enemy = collision.GetComponent<Enemy>();
-        if (enemy != null)
-        {
-            enemy.TakeDamage(damage);
-        }
-    }
+    //    //instantiate sprites as children of enemy
 
+    //    //on collision damage
+    //    //???whats that?? brackeys 11:45
+    //    Enemy enemy = collision.GetComponent<Enemy>();
+    //    if (enemy != null)
+    //    {
+    //        enemy.TakeDamage(damage);
+    //    }
+
+
+    //}
 }

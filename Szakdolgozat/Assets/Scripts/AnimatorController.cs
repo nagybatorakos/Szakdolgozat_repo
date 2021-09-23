@@ -12,9 +12,9 @@ public class AnimatorController : MonoBehaviour
     [SerializeField] private Animator anim;
     [SerializeField] private LayerMask ground;
 
-    public enum State { Idle_bow, Run_bow, Roll_bow, Rise_bow, Fall_bow, Attack_bow, Die_bow }
-    public State CurrentState = State.Idle_bow;
-    public State NewState = State.Idle_bow;
+    public enum State { Idle, Run, Roll, Rise, Fall, Attack_1, Die }
+    public State CurrentState = State.Idle;
+    public State NewState = State.Idle;
 
 
 
@@ -71,21 +71,21 @@ public class AnimatorController : MonoBehaviour
             if (xAxis == 0)
             {
                 //isComplete = true;
-                if (CurrentState == State.Run_bow)
+                if (CurrentState == State.Run)
                 {
                     isComplete = true;
                 }
-                ChangeAnimationState(State.Idle_bow);
+                ChangeAnimationState(State.Idle);
 
             }
 
             if (xAxis != 0)
             {
-                ChangeAnimationState(State.Run_bow);
+                ChangeAnimationState(State.Run);
                 //isComplete = false;
             }
 
-            if (CurrentState == State.Fall_bow)
+            if (CurrentState == State.Fall)
             {
                 isComplete = true;
             }
@@ -93,7 +93,7 @@ public class AnimatorController : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                ChangeAnimationState(State.Rise_bow);
+                ChangeAnimationState(State.Rise);
                 isComplete = false;
                 isRisen = true;
             }
@@ -106,7 +106,7 @@ public class AnimatorController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            ChangeAnimationState(State.Roll_bow);
+            ChangeAnimationState(State.Roll);
             isComplete = false;
         }
 
@@ -115,7 +115,7 @@ public class AnimatorController : MonoBehaviour
         {
             if (rb.velocity.y < 0f)
             {
-                ChangeAnimationState(State.Fall_bow);
+                ChangeAnimationState(State.Fall);
                 isRisen = false;
             }
         }
@@ -123,16 +123,13 @@ public class AnimatorController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            ChangeAnimationState(State.Attack_bow);
+            ChangeAnimationState(State.Attack_1);
             isComplete = false;
         }
 
     }
 
-    private void FixedUpdate()
-    {
 
-    }
 
 
 
@@ -166,7 +163,7 @@ public class AnimatorController : MonoBehaviour
     }
 
 
-    public void SpawnArrow()
+    public void SpawnA()
     {
         player.GetComponent<Player_Controller>().SpawnArrow();
     }

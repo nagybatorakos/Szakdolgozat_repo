@@ -54,6 +54,11 @@ public class Animator_EnemyRanged : Animator_Enemy
         }
 
     }
+    public void SpawnArrow()
+    {
+        sc.SpawnArrow();
+    }
+
 
     public void ScAttack()
     {
