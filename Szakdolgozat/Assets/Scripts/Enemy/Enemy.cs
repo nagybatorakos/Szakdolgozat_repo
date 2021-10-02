@@ -15,7 +15,7 @@ public class Enemy : MonoBehaviour
 
 
     //Attack variables
-    [SerializeField] private protected float asp = 0.5f;
+    [SerializeField] public float asp = 0.5f;
     [SerializeField] private protected float detectionRange = 2.5f;
     [SerializeField] private protected float attackrange = 0.2f;
     public bool detected = false;

@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class EnemyMelee : Enemy
 {
-
-
+    [SerializeField] private float dist;
 
     void Start()
     {
@@ -50,7 +49,7 @@ public class EnemyMelee : Enemy
             return;
         }
 
-        if (Vector2.Distance(player.transform.position, transform.position)< .7f)
+        if (Vector2.Distance(player.transform.position, transform.position)< dist)
         {
             rb.velocity = new Vector2(0, 0);
             rb.constraints = RigidbodyConstraints2D.FreezeAll;

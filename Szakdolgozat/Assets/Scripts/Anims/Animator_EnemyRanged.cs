@@ -44,6 +44,10 @@ public class Animator_EnemyRanged : Animator_Enemy
                 else if (sc.nextattack < Time.time && sc.detected)
                 {
 
+
+                    //stance = Stance.attack;
+
+                    sc.nextattack = Time.time + 1f / sc.asp;
                     //isComplete = false;
                     ChangeAnimationState(State.Attack_1);
 

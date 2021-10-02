@@ -6,6 +6,7 @@ public class EnemyRanged : Enemy
 {
     [SerializeField] private Transform AttackPoint;
     [SerializeField] private GameObject projectile;
+    
 
     void Start()
     {
@@ -47,10 +48,10 @@ public class EnemyRanged : Enemy
     private void Movement()
     {
 
-        if (detected == false || !anim.isComplete)
-        {
-            return;
-        }
+        //if (detected == false || !anim.isComplete)
+        //{
+        //    return;
+        //}
 
 
 
