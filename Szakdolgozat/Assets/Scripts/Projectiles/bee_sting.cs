@@ -1,30 +1,46 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class bee_sting : Projectile
 {
     // Start is called before the first frame update
     [SerializeField] Transform pl;
+    private float ips;
+    private float ipu;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         pl = GameObject.FindGameObjectWithTag("Player").transform;
+        ips = pl.position.y - 0.8f;
+
+        if (transform.localScale.x==-1)
+        {
+            ipu = pl.position.x - 0.8f;
+
+        }
+        else
+        {
+            ipu = pl.position.x + 0.8f;
+        }
 
     }
+
 
     // Update is called once per frame
     void Update()
     {
         Launch();
+
     }
 
 
     private void Launch()
     {
-        
-        transform.position = Vector3.MoveTowards(transform.position,pl.position, speed * Time.time);
+
+        transform.position = Vector3.MoveTowards(transform.position, new Vector3(ipu, ips, pl.position.z), speed * Time.deltaTime);
 
 
 

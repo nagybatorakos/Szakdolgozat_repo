@@ -33,8 +33,8 @@ public class Anim_bee : Animator_Enemy
             isGrounded = false;
         }
 
-        if (isGrounded)
-        {
+       
+       
             if (isComplete)
             {
                 if (rb.velocity.x != 0)
@@ -57,7 +57,7 @@ public class Anim_bee : Animator_Enemy
             }
 
 
-        }
+        
 
     }
     public void SpawnArrow()

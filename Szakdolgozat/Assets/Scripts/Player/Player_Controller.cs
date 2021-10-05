@@ -40,7 +40,7 @@ public class Player_Controller : MonoBehaviour
     public float currentHealth;
 
 
-
+    public Inventory inv;
     public AnimatorController anim;
     //[SerializeField] private GameObject go;
 
@@ -52,15 +52,16 @@ public class Player_Controller : MonoBehaviour
 
     void Start()
     {
-        
+       
         rb = GetComponent<Rigidbody2D>();
         tf = GetComponent<Transform>();
         coll = GetComponent<Collider2D>();
-
+        
         //AttackPoint = GameObject.Find("attackpoint").GetComponent<Transform>();
 
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
+
 
     }
 
@@ -192,7 +193,18 @@ public class Player_Controller : MonoBehaviour
         Debug.Log("arrow");
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag != "Item")
+        {
+            return;
+        }
 
+        //string[] st = collision.gameObject.name.Split(' ');
+
+        inv.AddtoInv(collision.gameObject);
+
+    }
 
     //draws hitbox
     private void OnDrawGizmosSelected()

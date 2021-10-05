@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2986171632269404055}
   - component: {fileID: 2182731889539851019}
   - component: {fileID: 4491556144251094595}
+  - component: {fileID: 6974958955520977933}
   m_Layer: 0
   m_Name: bee_sting
   m_TagString: Untagged
@@ -97,6 +98,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: 0
   arrow: 1
-  speed: 4
+  speed: 1
   damage: 20
   pl: {fileID: 0}
+--- !u!61 &6974958955520977933
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7550493014169692188}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0032237917, y: 0.003719762}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.0859375, y: 0.078125}
+    newSize: {x: 0.0859375, y: 0.078125}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.0735383, y: 0.070685476}
+  m_EdgeRadius: 0
