@@ -24,15 +24,24 @@ public class ItemSlot : MonoBehaviour, IDropHandler
         {
             if (hasitem)
             {
-                inv.Replace(eventData.pointerDrag.transform.parent.GetComponent<ItemSlot>(), this);
+                eventData.pointerDrag.GetComponent<DragDrop>().droppedonslot = true;
+                //Debug.Log($"{eventData.pointerDrag.GetComponent<DragDrop>().parent.GetComponent<ItemSlot>()}");
+                //if (eventData.pointerDrag==item)
+                //{
+
+                //}
+                inv.Replace(eventData.pointerDrag.GetComponent<DragDrop>().parent.GetComponent<ItemSlot>(), this);
             }
             else
             {
+                //Debug.Log($"{eventData.pointerDrag.GetComponent<DragDrop>().parent.GetComponent<ItemSlot>()}");
                 eventData.pointerDrag.GetComponent<DragDrop>().droppedonslot = true;
-                eventData.pointerDrag.GetComponent<DragDrop>().lastpos = GetComponent<Transform>().position;
                 Debug.Log("dropped");
-                // eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
-                eventData.pointerDrag.GetComponent<Transform>().position = GetComponent<Transform>().position;
+                inv.Move(eventData.pointerDrag.GetComponent<DragDrop>().parent.GetComponent<ItemSlot>(), this);
+                eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
+                eventData.pointerDrag.GetComponent<DragDrop>().lastpos = item.GetComponent<RectTransform>().anchoredPosition;
+
+                //eventData.pointerDrag.GetComponent<Transform>().position = GetComponent<Transform>().position;
                 //Debug.Log($"{eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition} = {GetComponent<RectTransform>().anchoredPosition}");
 
             }

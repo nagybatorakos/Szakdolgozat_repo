@@ -203,6 +203,7 @@ public class Player_Controller : MonoBehaviour
         //string[] st = collision.gameObject.name.Split(' ');
 
         inv.AddtoInv(collision.gameObject);
+        Destroy(collision.gameObject);
 
     }
 
