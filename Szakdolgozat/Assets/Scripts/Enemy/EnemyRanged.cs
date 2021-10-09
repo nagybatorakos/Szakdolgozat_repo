@@ -17,7 +17,7 @@ public class EnemyRanged : Enemy
 
         //stat inserting
         Name = this.name.Split(char.Parse(" "))[0];
-        Search();
+        //Search();
 
 
         currentHealth = maxHealth;

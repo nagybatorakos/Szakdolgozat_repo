@@ -70,4 +70,8 @@ public class Anim_bee : Animator_Enemy
     {
         sc.Attack();
     }
+    public void drop()
+    {
+        sc.DropItem();
+    }
 }

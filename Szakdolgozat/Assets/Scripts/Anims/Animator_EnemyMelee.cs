@@ -59,6 +59,10 @@ public class Animator_EnemyMelee : Animator_Enemy
         }
 
     }
+    public void drop()
+    {
+        sc.DropItem();
+    }
 
     public void ScAttack()
     {

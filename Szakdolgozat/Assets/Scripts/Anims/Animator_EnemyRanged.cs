@@ -68,4 +68,8 @@ public class Animator_EnemyRanged : Animator_Enemy
     {
         sc.Attack();
     }
+    public void drop()
+    {
+        sc.DropItem();
+    }
 }

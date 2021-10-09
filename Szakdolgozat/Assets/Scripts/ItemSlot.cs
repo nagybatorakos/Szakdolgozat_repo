@@ -39,7 +39,7 @@ public class ItemSlot : MonoBehaviour, IDropHandler
                 Debug.Log("dropped");
                 inv.Move(eventData.pointerDrag.GetComponent<DragDrop>().parent.GetComponent<ItemSlot>(), this);
                 eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
-                eventData.pointerDrag.GetComponent<DragDrop>().lastpos = item.GetComponent<RectTransform>().anchoredPosition;
+                eventData.pointerDrag.GetComponent<DragDrop>().lastpos = GetComponent<RectTransform>().anchoredPosition;
 
                 //eventData.pointerDrag.GetComponent<Transform>().position = GetComponent<Transform>().position;
                 //Debug.Log($"{eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition} = {GetComponent<RectTransform>().anchoredPosition}");

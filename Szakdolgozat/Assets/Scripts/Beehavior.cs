@@ -20,7 +20,7 @@ public class Beehavior : Enemy
 
         //stat inserting
         Name = this.name.Split(char.Parse(" "))[0];
-        Search();
+        //Search();
 
 
         currentHealth = maxHealth;
@@ -60,13 +60,13 @@ public class Beehavior : Enemy
             float hoverError = hoverHeight - hit.distance;
             //Debug.Log("hit", hit.collider);
             float distance = transform.position.y - hit.point.y;
-            Debug.Log($"{distance}, {hit.collider.gameObject.name}");
+            //Debug.Log($"{distance}, {hit.collider.gameObject.name}");
             // Only apply a lifting force if the object is too low (ie, let
             // gravity pull it downward if it is too high).
             if (distance < hoverHeight)
             {
 
-                Debug.Log("adding force");
+                //Debug.Log("adding force");
                 // Subtract the damping from the lifting force and apply it to
                 // the rigidbody.
                 float upwardSpeed = rb.velocity.y;

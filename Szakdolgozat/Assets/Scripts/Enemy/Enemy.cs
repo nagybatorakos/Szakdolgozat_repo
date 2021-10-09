@@ -6,6 +6,7 @@ public class Enemy : MonoBehaviour
 {
 
     //Stat variables
+    public int xp = 10;
     [SerializeField] public float lvl = 1;
     [SerializeField] public float maxHealth;
     [SerializeField] private protected float currentHealth;
@@ -44,6 +45,10 @@ public class Enemy : MonoBehaviour
     public enum Stance { move, attack }
     public Stance stance = Stance.move;
 
+    public List<GameObject> items = new List<GameObject>();
+
+    public StatSys statsys;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,27 +61,27 @@ public class Enemy : MonoBehaviour
         
     }
 
-    public void Search()
-    {
-        Stats[] elemek = GameObject.Find("GameObject").GetComponent<Stat_DB>().stats;
+    //public void Search()
+    //{
+    //    Stats[] elemek = GameObject.Find("GameObject").GetComponent<Stat_DB>().stats;
 
 
-        //Component elem = GameObject.Find("GameObject").GetComponent<Stat_DB>();
+    //    //Component elem = GameObject.Find("GameObject").GetComponent<Stat_DB>();
 
-        foreach (Stats n in elemek)
-        {
-            if (n.name == Name)
-            {
-                maxHealth = n.HP * lvl;
-                dmg = n.Damage * lvl;
-                asp = n.AttackSpeed * lvl;
-                ms = n.MovementSpeed * lvl;
+    //    foreach (Stats n in elemek)
+    //    {
+    //        if (n.name == Name)
+    //        {
+    //            maxHealth = n.HP * lvl;
+    //            dmg = n.Damage * lvl;
+    //            asp = n.AttackSpeed * lvl;
+    //            ms = n.MovementSpeed * lvl;
 
-                break;
-            }
-        }
+    //            break;
+    //        }
+    //    }
 
-    }
+    //}
 
     public void TakeDamage(float damage)
     {
@@ -109,4 +114,15 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void DropItem()
+    {
+        statsys.xp += xp;
+        statsys.lvlup();
+        foreach(GameObject item in items)
+        {
+            Instantiate(item, transform.position, item.transform.rotation);
+            
+            //player.GetComponent<Player_Controller>
+        }
+    }
 }

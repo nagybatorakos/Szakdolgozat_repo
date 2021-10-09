@@ -11,6 +11,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     public bool droppedonslot = false;
     public Vector2 lastpos;
     public GameObject parent;
+    public Inventory inv;
 
     private void Awake()
     {
@@ -79,7 +80,9 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     public void OnDrop(PointerEventData eventData)
     {
-
+        parent.GetComponent<ItemSlot>().OnDrop(eventData);
+        
+        
         //throw new System.NotImplementedException();
     }
 }

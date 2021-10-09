@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class InGameUI : MonoBehaviour
 {
-
+    public Inventory invy;
     public GameObject inv;
     public GameObject sett;
-
+    public TextMeshProUGUI tmp;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +20,10 @@ public class InGameUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (tmp.text != invy.coins.ToString())
+        {
+            tmp.text = invy.coins.ToString();
+        }
     }
 
     private void CloseActive()

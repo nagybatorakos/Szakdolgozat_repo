@@ -16,15 +16,15 @@ public class Player_Controller : MonoBehaviour
 
 
     //Move and jump floats
-    [SerializeField] private float MovementSpeed = 5f;
-    [SerializeField] private float Jumpheight = 5f;
+    public float MovementSpeed = 5f;
+    public float Jumpheight = 5f;
 
 
     //Attack variables
     [SerializeField] private Transform AttackPoint;
     [SerializeField] private float AttackRange = 0.5f;
-    [SerializeField] private float AttackDamage = 20f;
-    [SerializeField] private float attackRate = 2f;
+    public float AttackDamage = 20f;
+    public float attackRate = 2f;
     [SerializeField] private float nextAttackTime = 0f;
     [SerializeField] private GameObject projectile;
 
@@ -41,6 +41,7 @@ public class Player_Controller : MonoBehaviour
 
 
     public Inventory inv;
+    public StatSys statsys;
     public AnimatorController anim;
     //[SerializeField] private GameObject go;
 
@@ -52,11 +53,11 @@ public class Player_Controller : MonoBehaviour
 
     void Start()
     {
-       
+
         rb = GetComponent<Rigidbody2D>();
         tf = GetComponent<Transform>();
         coll = GetComponent<Collider2D>();
-        
+
         //AttackPoint = GameObject.Find("attackpoint").GetComponent<Transform>();
 
         currentHealth = maxHealth;
@@ -80,6 +81,7 @@ public class Player_Controller : MonoBehaviour
 
     }
 
+
     private void Movement()
     {
         if (run)
@@ -94,7 +96,7 @@ public class Player_Controller : MonoBehaviour
 
     }
 
-    private void InputDetection() 
+    private void InputDetection()
     {
 
         //Horizontal Movement
@@ -145,23 +147,23 @@ public class Player_Controller : MonoBehaviour
         }
     }
 
-    public void Attack() 
+    public void Attack()
     {
         //need code for hunter, mage too
 
         if (sword)
         {
-        //anim.SetTrigger("Attack");
+            //anim.SetTrigger("Attack");
 
-        //enemy detection and storing
-        Collider2D[] HitEnemies = Physics2D.OverlapCircleAll(AttackPoint.position, AttackRange, EnemyLayers);
+            //enemy detection and storing
+            Collider2D[] HitEnemies = Physics2D.OverlapCircleAll(AttackPoint.position, AttackRange, EnemyLayers);
 
-        //damage them each
-        foreach (Collider2D enemy in HitEnemies) 
-        {
-            Debug.Log("we hit "+ enemy.name);
-            enemy.GetComponent<Enemy>().TakeDamage(AttackDamage);
-        }
+            //damage them each
+            foreach (Collider2D enemy in HitEnemies)
+            {
+                Debug.Log("we hit " + enemy.name);
+                enemy.GetComponent<Enemy>().TakeDamage(AttackDamage);
+            }
         }
         else if (bow)
         {
@@ -174,7 +176,7 @@ public class Player_Controller : MonoBehaviour
             //damage collided
             //Debug.Log("we hit " + enemy.name);
             //enemy.GetComponent<Enemy>().TakeDamage(AttackDamage);
-            
+
         }
     }
 
@@ -200,17 +202,27 @@ public class Player_Controller : MonoBehaviour
             return;
         }
 
-        //string[] st = collision.gameObject.name.Split(' ');
+        if (collision.gameObject.name.StartsWith("Coin"))
+        {
+            collision.gameObject.GetComponent<Pickup>().pickup();
+            inv.coins+= collision.gameObject.GetComponent<Pickup>().value;
+            //itt inv.coins++
+        }
+        else
+        {
+            //string[] st = collision.gameObject.name.Split(' ');
 
-        inv.AddtoInv(collision.gameObject);
-        Destroy(collision.gameObject);
+            inv.AddtoInv(collision.gameObject);
+            Destroy(collision.gameObject);
+
+        }
 
     }
 
     //draws hitbox
     private void OnDrawGizmosSelected()
     {
-        if (AttackPoint != null) 
+        if (AttackPoint != null)
         {
             Gizmos.DrawWireSphere(AttackPoint.position, AttackRange);
         }

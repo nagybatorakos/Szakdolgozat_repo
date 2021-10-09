@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Inventory : MonoBehaviour
 {
     //public Dictionary<GameObject, string> Slots = new Dictionary<GameObject, string>();
     //public Dictionary<string, int> NameCount = new Dictionary<string, int>();
 
     //public List<KeyValuePair<GameObject, int>> SlotList = new List<KeyValuePair<GameObject, int>>();
+    public int coins = 0;
 
     public GameObject[] inv = new GameObject[9];
     public GameObject Items;
@@ -72,12 +74,20 @@ public class Inventory : MonoBehaviour
 
             if (slot.item != null)
             {
-                goid = slot.item.name.Split(' ')[0];
-
+                goid = slot.item.name.Split('(')[0];
                 Debug.Log($"{itemid}, {goid}");
-            }
+                //Debug.Log($"{itemid}, {goid}, {instpref[goid].name}");
 
-            if (!slot.hasitem)
+
+
+                if (goid == instpref[itemid].name)
+                {
+                    slot.quantity++;
+                    Destroy(item);
+                    break;
+                }
+            }
+            else if (!slot.hasitem)
             {
                 slot.hasitem = true;
                 slot.item = item;
@@ -85,13 +95,6 @@ public class Inventory : MonoBehaviour
                 Snap(item, go);
                 break;
             }
-            else if (goid == itemid)
-            {
-                slot.quantity++;
-                Destroy(item);
-                break;
-            }
-
 
         }
 
@@ -103,7 +106,7 @@ public class Inventory : MonoBehaviour
     {
         item.GetComponent<DragDrop>().parent = to;
         item.transform.SetParent(Items.transform);
-        item.GetComponent<RectTransform>().localScale = new Vector3(.2f, .3f, 0);
+        item.GetComponent<RectTransform>().localScale = new Vector3(.4f, .6f, 0);
         item.GetComponent<RectTransform>().anchoredPosition = to.GetComponent<RectTransform>().anchoredPosition;
         //item.transform.position = to.transform.position;
         //item.transform.localScale = new Vector2(1.5f, 1.5f);
@@ -121,19 +124,21 @@ public class Inventory : MonoBehaviour
         (from.item, to.item) = (to.item, from.item);
         (from.item.GetComponent<DragDrop>().parent, to.item.GetComponent<DragDrop>().parent) = (to.item.GetComponent<DragDrop>().parent, from.item.GetComponent<DragDrop>().parent);
         (from.item.GetComponent<RectTransform>().anchoredPosition, to.item.GetComponent<RectTransform>().anchoredPosition) = (to.item.GetComponent<DragDrop>().lastpos, from.item.GetComponent<DragDrop>().lastpos);
+        (to.item.GetComponent<DragDrop>().lastpos, from.item.GetComponent<DragDrop>().lastpos) = (from.item.GetComponent<DragDrop>().lastpos, to.item.GetComponent<DragDrop>().lastpos);
 
+        Debug.Log($"{from.item.GetComponent<DragDrop>().lastpos}, {to.item.GetComponent<DragDrop>().lastpos}");
     }
 
     public void Move(ItemSlot from, ItemSlot to)
     {
         (from.hasitem, to.hasitem) = (to.hasitem, from.hasitem);
-        Debug.Log($"{from.hasitem}, {to.hasitem}");
+
         (from.quantity, to.quantity) = (to.quantity, from.quantity);
-        Debug.Log($"{from.quantity}, {to.quantity}");
+
 
 
         (from.item, to.item) = (null, from.item);
-        Debug.Log($"{from.item}, {to.item}");
+
 
         to.item.GetComponent<DragDrop>().parent = to.gameObject;
         //Debug.Log($"{from.item.GetComponent<DragDrop>().parent}, {to.item.GetComponent<DragDrop>().parent}");
@@ -141,3 +146,4 @@ public class Inventory : MonoBehaviour
     }
 
 }
+
