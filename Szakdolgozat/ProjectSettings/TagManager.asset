@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - Ground
   - Item
+  - Information
+  - SceneSwap
   layers:
   - Default
   - TransparentFX

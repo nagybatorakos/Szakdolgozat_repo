@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player_Controller : MonoBehaviour
 {
     //Class Selected
-    public bool sword = false;
-    public bool bow = true;
+    public bool sword;
+    public bool bow;
+    public bool staff;
 
 
     //Components
@@ -161,6 +163,7 @@ public class Player_Controller : MonoBehaviour
             //damage them each
             foreach (Collider2D enemy in HitEnemies)
             {
+                if (enemy.tag != "Enemy") { continue; }
                 Debug.Log("we hit " + enemy.name);
                 enemy.GetComponent<Enemy>().TakeDamage(AttackDamage);
             }
@@ -197,18 +200,20 @@ public class Player_Controller : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag != "Item")
-        {
-            return;
-        }
 
-        if (collision.gameObject.name.StartsWith("Coin"))
+
+
+        if (collision.tag=="SceneSwap")
+        {
+            SceneManager.LoadScene(collision.gameObject.name);
+        }
+        else if (collision.gameObject.name.StartsWith("Coin"))
         {
             collision.gameObject.GetComponent<Pickup>().pickup();
             inv.coins+= collision.gameObject.GetComponent<Pickup>().value;
             //itt inv.coins++
         }
-        else
+        else if(collision.tag == "Item")
         {
             //string[] st = collision.gameObject.name.Split(' ');
 

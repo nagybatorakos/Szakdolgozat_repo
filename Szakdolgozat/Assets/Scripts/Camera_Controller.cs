@@ -5,14 +5,19 @@ using UnityEngine;
 
 public class Camera_Controller : MonoBehaviour
 {
+    public GameObject[] chars = new GameObject[3];
     [SerializeField] private Transform playertf;
     [SerializeField] private Transform camtf;
     [SerializeField] private float speed;
     private float diff;
-    
+
+    public static int player;
 
     void Start()
     {
+        //GameObject.Find(player).SetActive(true);
+        chars[player].SetActive(true);
+        playertf = chars[player].transform;
         //playertf = GameObject.Find("Player").GetComponent<Transform>();
         camtf = GetComponent<Transform>();
         diff = math.abs(transform.position.y - playertf.position.y);
