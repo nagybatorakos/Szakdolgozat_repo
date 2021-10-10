@@ -51,11 +51,12 @@ public class Player_Controller : MonoBehaviour
     [SerializeField] private bool run = false;
     [SerializeField] private bool rise = false;
 
-
+    public Camera_Controller cam;
+    
 
     void Start()
     {
-
+        
         rb = GetComponent<Rigidbody2D>();
         tf = GetComponent<Transform>();
         coll = GetComponent<Collider2D>();
@@ -198,22 +199,25 @@ public class Player_Controller : MonoBehaviour
         Debug.Log("arrow");
     }
 
+    //[System.Obsolete]
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
 
 
-        if (collision.tag=="SceneSwap")
+        if (collision.tag == "SceneSwap")
         {
-            SceneManager.LoadScene(collision.gameObject.name);
+
+            StartCoroutine(ChangeScene(collision));
+
         }
         else if (collision.gameObject.name.StartsWith("Coin"))
         {
             collision.gameObject.GetComponent<Pickup>().pickup();
-            inv.coins+= collision.gameObject.GetComponent<Pickup>().value;
+            inv.coins += collision.gameObject.GetComponent<Pickup>().value;
             //itt inv.coins++
         }
-        else if(collision.tag == "Item")
+        else if (collision.tag == "Item")
         {
             //string[] st = collision.gameObject.name.Split(' ');
 
@@ -222,6 +226,26 @@ public class Player_Controller : MonoBehaviour
 
         }
 
+    }
+
+    IEnumerator ChangeScene(Collider2D collision)
+    {
+        Scene active = SceneManager.GetActiveScene();
+        Scene next = SceneManager.GetSceneByName(collision.gameObject.name);
+
+        SceneManager.LoadScene(collision.gameObject.name, LoadSceneMode.Additive);
+
+        foreach (GameObject go in cam.transfer)
+        {
+            Debug.Log(next.name);
+            SceneManager.MoveGameObjectToScene(go, SceneManager.GetSceneByName(collision.gameObject.name));
+
+        }
+
+        yield return null;
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(collision.gameObject.name));
+
+        SceneManager.UnloadScene(active);
     }
 
     //draws hitbox

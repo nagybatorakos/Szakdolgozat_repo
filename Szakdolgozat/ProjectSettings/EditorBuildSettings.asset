@@ -8,4 +8,19 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ForestBridge.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Village.unity
+    guid: 3a2450fa6cb5ef341bacc46103328e2e
+  - enabled: 1
+    path: Assets/Cave.unity
+    guid: ed876f83a66c2ad44b4ea6fbe1c58db6
+  - enabled: 1
+    path: Assets/Scenes/StartMenu.unity
+    guid: 5e7ecf9e7629f92448fb94d2df460690
+  - enabled: 1
+    path: Assets/Scenes/ForestSpawn.unity
+    guid: 1d4ebc8de027c6f4aa15ed1988aaf322
+  - enabled: 1
+    path: Assets/ForestCave.unity
+    guid: 16ceb75dc3e868c4fa770edbe3c3206c
   m_configObjects: {}

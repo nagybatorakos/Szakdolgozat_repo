@@ -12,6 +12,7 @@ public class Camera_Controller : MonoBehaviour
     private float diff;
 
     public static int player;
+    public GameObject[] transfer = new GameObject[5];
 
     void Start()
     {
