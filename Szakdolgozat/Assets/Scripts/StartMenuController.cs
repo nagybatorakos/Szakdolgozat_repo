@@ -58,8 +58,8 @@ public class StartMenuController : MonoBehaviour
     }
     public void selectbtn() 
     {
-        Camera_Controller.player = selected;
-        SceneManager.LoadScene("ForestBridge");
+        Camera_Controller.p = selected;
+        SceneManager.LoadScene("VillageSpawn");
     }
 
 }

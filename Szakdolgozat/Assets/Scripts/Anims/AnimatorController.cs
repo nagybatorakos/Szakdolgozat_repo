@@ -162,6 +162,10 @@ public class AnimatorController : MonoBehaviour
 
     }
 
+    public void Slash()
+    {
+        player.GetComponent<Player_Controller>().Attack();
+    }
 
     public void SpawnA()
     {

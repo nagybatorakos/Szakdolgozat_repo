@@ -24,6 +24,11 @@ public class EnemyMelee : Enemy
 
     void Update()
     {
+        if (player == null)
+        {
+            player = GameObject.Find("Main Camera").GetComponent<Camera_Controller>().player;
+        }
+
         if (isDead)
         {
             rb.velocity = new Vector2(0, 0);
