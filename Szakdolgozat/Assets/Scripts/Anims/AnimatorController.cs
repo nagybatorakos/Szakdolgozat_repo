@@ -6,17 +6,20 @@ public class AnimatorController : MonoBehaviour
 {
 
     public GameObject player;
-
+    private Transform tf;
     private Rigidbody2D rb;
     private Collider2D coll;
     [SerializeField] private Animator anim;
     [SerializeField] private LayerMask ground;
 
-    public enum State { Idle, Run, Roll, Rise, Fall, Attack_1, Die }
+    public enum State { Idle, Run, Roll, Rise, Fall, Attack_1, Special, Die }
     public State CurrentState = State.Idle;
     public State NewState = State.Idle;
 
-
+    public AudioClip[] audios = new AudioClip[3];
+    public AudioSource audio;
+   
+    
 
 
 
@@ -34,7 +37,7 @@ public class AnimatorController : MonoBehaviour
     [SerializeField] private bool isRollPressed;
 
 
-
+    
 
 
 
@@ -44,7 +47,7 @@ public class AnimatorController : MonoBehaviour
         rb = player.GetComponent<Rigidbody2D>();
         coll = player.GetComponent<Collider2D>();
         anim = GetComponent<Animator>();
-
+        tf = player.GetComponent<Transform>();
 
 
     }
@@ -102,11 +105,18 @@ public class AnimatorController : MonoBehaviour
 
         }
 
+        if (player.GetComponent<Player_Controller>().special)
+        {
+            ChangeAnimationState(State.Special);
+            isComplete = false;
+           
+        }
 
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             ChangeAnimationState(State.Roll);
+            rb.velocity = new Vector2(5f, rb.velocity.y);
             isComplete = false;
         }
 
@@ -129,8 +139,28 @@ public class AnimatorController : MonoBehaviour
 
     }
 
+    public void footstep()
+    {
+        audio.clip = audios[0];
+        audio.Play();
+    }
 
+    public void attack_sound()
+    {
+        audio.clip = audios[1];
+        audio.Play();
+    }
 
+    public void spec_ended()
+    {
+       player.GetComponent<Player_Controller>().special = false;
+        player.layer = 10;
+    }
+
+    public void war_special()
+    {
+        player.GetComponent<Rigidbody2D>().velocity = new Vector2(player.GetComponent<Player_Controller>().special_range * tf.localScale.x, rb.velocity.y);
+    }
 
 
     public void AnimationComplete()

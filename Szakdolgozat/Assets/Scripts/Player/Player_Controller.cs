@@ -29,7 +29,7 @@ public class Player_Controller : MonoBehaviour
     public float attackRate = 2f;
     [SerializeField] private float nextAttackTime = 0f;
     [SerializeField] private GameObject projectile;
-
+    public float special_range = 8f;
 
     //Layers
     [SerializeField] private LayerMask EnemyLayers;
@@ -50,9 +50,12 @@ public class Player_Controller : MonoBehaviour
     //movement bools
     [SerializeField] private bool run = false;
     [SerializeField] private bool rise = false;
+    public bool special = false;
 
     public Camera_Controller cam;
     public Animator transition;
+
+    public List<Collider2D> HitSpecial = new List<Collider2D>();
 
     void Start()
     {
@@ -75,6 +78,36 @@ public class Player_Controller : MonoBehaviour
     private void Update()
     {
         InputDetection();
+
+        if (sword)
+        {
+            if (special)
+            {
+                //enemy detection and storing
+                Collider2D[] hit = Physics2D.OverlapCircleAll(AttackPoint.position, AttackRange, EnemyLayers);
+                foreach (Collider2D enemy in hit)
+                {
+                    if (!HitSpecial.Contains(enemy))
+                    {
+                        HitSpecial.Add(enemy);
+
+                    }
+
+                }
+
+
+            }
+            else
+            {
+                foreach (Collider2D enemy in HitSpecial)
+                {
+                    if (enemy.tag != "Enemy" || enemy.gameObject.name == "see") { continue; }
+                    Debug.Log("we hit " + enemy.name);
+                    enemy.GetComponent<Enemy>().TakeDamage(AttackDamage);
+                }
+                HitSpecial.Clear();
+            }
+        }
     }
 
     void FixedUpdate()
@@ -87,7 +120,8 @@ public class Player_Controller : MonoBehaviour
 
     private void Movement()
     {
-        if (run)
+
+        if (run && !special)
         {
             rb.velocity = new Vector2(MovementSpeed * Input.GetAxis("Horizontal"), rb.velocity.y);
         }
@@ -95,6 +129,12 @@ public class Player_Controller : MonoBehaviour
         if (rise)
         {
             //rb.velocity = new Vector2(rb.velocity.x, Jumpheight);
+        }
+
+        if (special)
+        {
+            //rb.velocity = new Vector2(special_range*tf.localScale.x, rb.velocity.y);
+            //special = false;
         }
 
     }
@@ -141,7 +181,18 @@ public class Player_Controller : MonoBehaviour
         //Attack
         if (Time.time >= nextAttackTime)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+
+                special = true;
+
+                gameObject.layer = 4;
+
+
+
+
+            }
+            else if (Input.GetKeyDown(KeyCode.Space))
             {
                 //Attack();
                 nextAttackTime = Time.time + 1f / attackRate;
@@ -149,6 +200,8 @@ public class Player_Controller : MonoBehaviour
 
         }
     }
+
+
 
     public void Attack()
     {
@@ -194,6 +247,7 @@ public class Player_Controller : MonoBehaviour
 
         }
         projectile.GetComponent<Projectile>().player = true;
+        projectile.GetComponent<Projectile_P>().special = special;
         Debug.Log("arrow");
     }
 

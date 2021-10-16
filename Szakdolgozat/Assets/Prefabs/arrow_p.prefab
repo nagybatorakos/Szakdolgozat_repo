@@ -122,6 +122,8 @@ MonoBehaviour:
   arrow: 1
   speed: 6
   damage: 20
+  special_damage: 25
+  special: 0
 --- !u!70 &4679318371567102078
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

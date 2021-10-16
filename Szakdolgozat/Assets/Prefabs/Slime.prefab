@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 488351654371423638}
   m_Layer: 11
   m_Name: Slime
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -86,12 +86,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ec9b6eb82ae8a743b60e280dfbc4b1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  xp: 10
   lvl: 1
-  maxHealth: 0
+  maxHealth: 20
   currentHealth: 0
   Name: 
-  dmg: 0
-  ms: 0
+  dmg: 10
+  ms: 2
   asp: 0.5
   detectionRange: 2.5
   attackrange: 0.2
@@ -109,6 +110,8 @@ MonoBehaviour:
   anim: {fileID: 0}
   isDead: 0
   stance: 0
+  items: []
+  statsys: {fileID: 0}
   dist: 0
 --- !u!1 &488351654508808207
 GameObject:
@@ -239,7 +242,7 @@ GameObject:
   - component: {fileID: 488351655093014724}
   m_Layer: 11
   m_Name: see
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -478,7 +481,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 488351654371423636}
-  deadsprite: {fileID: 7838131601145535096, guid: 6f9492834631132478168678f5568555, type: 3}
+  deadsprite: {fileID: 8255333090777737526, guid: ff9f197d62ccb284385c712aa2ff3d22, type: 3}
   anim: {fileID: 0}
   ground:
     serializedVersion: 2

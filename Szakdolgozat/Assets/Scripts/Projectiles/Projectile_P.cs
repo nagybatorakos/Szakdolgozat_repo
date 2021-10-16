@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Projectile_P : Projectile
 {
-    
 
+    public float special_damage;
+    public bool special;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        
+
 
     }
 
@@ -33,24 +34,57 @@ public class Projectile_P : Projectile
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        if (collision.tag == "Player")
+        if (collision.tag == "Player" || collision.gameObject.name == "see")
         {
             return;
         }
-        //on collision destroy
-        Debug.Log(collision.gameObject.name);
-        Destroy(gameObject);
-
-        //instantiate sprites as children of enemy
-
-        //on collision damage
-        //???whats that?? brackeys 11:45
-        Enemy enemy = collision.GetComponent<Enemy>();
-        if (enemy != null)
+        if (collision.gameObject.tag == "Enemy")
         {
-            enemy.TakeDamage(damage);
+            if (special)
+            {
+                if (arrow)
+                {
+
+                    Enemy en = collision.GetComponent<Enemy>();
+                    if (en != null)
+                    {
+                        en.TakeDamage(special_damage);
+                    }
+                }
+                else
+                {
+                    damage = special_damage;
+
+                }
+
+            }
+            else
+            {
+
+
+
+
+                //on collision destroy
+                Debug.Log(collision.gameObject.name);
+                Destroy(gameObject);
+
+                //instantiate sprites as children of enemy
+
+                //on collision damage
+                //???whats that?? brackeys 11:45
+                Enemy enemy = collision.GetComponent<Enemy>();
+                if (enemy != null)
+                {
+                    enemy.TakeDamage(damage);
+                }
+            }
+
+
         }
-
-
+        else
+        {
+            Debug.Log(collision.gameObject.name);
+            Destroy(gameObject);
+        }
     }
 }

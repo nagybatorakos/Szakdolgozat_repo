@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3509009045748548039}
   m_Layer: 11
   m_Name: see
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -368,7 +368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 3509009046691316267}
-  deadsprite: {fileID: 0}
+  deadsprite: {fileID: 790802198079004046, guid: 74e43e9634018664b8b478c63cac296c, type: 3}
   anim: {fileID: 3509009046686599136}
   ground:
     serializedVersion: 2
@@ -464,12 +464,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1dacca354536b146a9b801478502e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  xp: 10
   lvl: 1
   maxHealth: 0
-  currentHealth: 0
+  currentHealth: 40
   Name: 
-  dmg: 0
-  ms: 1
+  dmg: 15
+  ms: 1.5
   asp: 0.5
   detectionRange: 2.5
   attackrange: 0.2
@@ -487,6 +488,8 @@ MonoBehaviour:
   anim: {fileID: 3509009046686599137}
   isDead: 0
   stance: 0
+  items: []
+  statsys: {fileID: 0}
   AttackPoint: {fileID: 3509009045858079056}
   projectile: {fileID: 7550493014169692188, guid: 01f38079a0a8a1c44ba4cda4e4656b71, type: 3}
   dist: 2

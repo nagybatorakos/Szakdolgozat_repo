@@ -9,7 +9,7 @@ public class EnemyMelee : Enemy
     void Start()
     {
         hpbar = gameObject.transform.Find("healthbar").Find("fill").GetComponent<RectTransform>();
-        
+
         coll = GetComponent<Collider2D>();
         rb = GetComponent<Rigidbody2D>();
 
@@ -54,7 +54,7 @@ public class EnemyMelee : Enemy
             return;
         }
 
-        if (Vector2.Distance(player.transform.position, transform.position)< dist)
+        if (Vector2.Distance(player.transform.position, transform.position) < dist)
         {
             rb.velocity = new Vector2(0, 0);
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
@@ -92,16 +92,9 @@ public class EnemyMelee : Enemy
 
     public void Attack()
     {
+        
         Collider2D[] HitEnemies = Physics2D.OverlapCircleAll(attackpoint.position, attackrange, EnemyLayers);
-
-        if (HitEnemies.Length < 1 || nextattack > Time.time)
-        {
-            return;
-        }
-
-        //stance = Stance.attack;
-
-        nextattack = Time.time + 1f / asp;
+        Debug.Log(HitEnemies.Length);
 
 
         //damage them each
@@ -111,9 +104,21 @@ public class EnemyMelee : Enemy
             enemy.GetComponent<Player_Controller>().TakeDamage(dmg);
 
         }
-
+        nextattack = Time.time + 1f / asp;
 
         //stance = Stance.move;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (gameObject.name.StartsWith("Slime"))
+        {
+            if (collision.gameObject.name.StartsWith("Player"))
+            {
+                collision.gameObject.GetComponent<Player_Controller>().TakeDamage(dmg);
+            }
+
+        }
     }
 
     private void OnDrawGizmosSelected()

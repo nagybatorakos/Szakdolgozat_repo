@@ -99,7 +99,7 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 1338750077891365146}
   m_Bounds:
-    m_Center: {x: 0, y: 0.00043154508, z: 0}
+    m_Center: {x: 0, y: 0.0004316643, z: 0}
     m_Extent: {x: 0.08398441, y: 0.07378714, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -117,6 +117,7 @@ GameObject:
   - component: {fileID: 5364995614734255344}
   - component: {fileID: 5364995614734255345}
   - component: {fileID: 5364995614734255350}
+  - component: {fileID: 2385199458921139491}
   m_Layer: 10
   m_Name: Player_mage
   m_TagString: Player
@@ -221,6 +222,12 @@ MonoBehaviour:
     m_Bits: 128
   CurrentState: 0
   NewState: 0
+  audios:
+  - {fileID: 8300000, guid: 18f1ff003e8fbdb44aba8266f6e1d168, type: 3}
+  - {fileID: 8300000, guid: fe0b1f9aeb45b41b089175aeeabd5d95, type: 3}
+  - {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
+  - {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
+  audio: {fileID: 2385199458921139491}
   xAxis: 0
   isComplete: 0
   isGrounded: 0
@@ -241,6 +248,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sword: 0
   bow: 1
+  staff: 0
   rb: {fileID: 0}
   tf: {fileID: 0}
   coll: {fileID: 0}
@@ -252,6 +260,7 @@ MonoBehaviour:
   attackRate: 2
   nextAttackTime: 0
   projectile: {fileID: 4821973587298449969, guid: dcc047a5b3162424690fa34e79c4a313, type: 3}
+  special_range: 8
   EnemyLayers:
     serializedVersion: 2
     m_Bits: 2048
@@ -266,6 +275,106 @@ MonoBehaviour:
   anim: {fileID: 5364995614734255345}
   run: 0
   rise: 0
+  special: 0
+  cam: {fileID: 0}
+  transition: {fileID: 0}
+  HitSpecial: []
+--- !u!82 &2385199458921139491
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 433674539798089623}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &479432068905482343
 GameObject:
   m_ObjectHideFlags: 0
@@ -365,7 +474,7 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 2141573158585293055}
   m_Bounds:
-    m_Center: {x: -0.0001503937, y: 0, z: 0}
+    m_Center: {x: -0.0001503937, y: -0.00000011920929, z: 0}
     m_Extent: {x: 0.04076759, y: 0.05468752, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -992,7 +1101,7 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 8203933031346595400}
   m_Bounds:
-    m_Center: {x: -0.00002734363, y: -0.0005057454, z: 0}
+    m_Center: {x: -0.00002734363, y: -0.0005058646, z: 0}
     m_Extent: {x: 0.11709374, y: 0.09519725, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
