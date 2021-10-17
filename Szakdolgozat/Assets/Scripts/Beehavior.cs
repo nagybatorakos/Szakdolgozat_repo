@@ -44,7 +44,10 @@ public class Beehavior : Enemy
         }
 
 
-
+        if (player == null)
+        {
+            player = GameObject.Find("Main Camera").GetComponent<Camera_Controller>().player;
+        }
 
 
 
@@ -63,7 +66,7 @@ public class Beehavior : Enemy
             //Debug.Log($"{distance}, {hit.collider.gameObject.name}");
             // Only apply a lifting force if the object is too low (ie, let
             // gravity pull it downward if it is too high).
-            if (distance < hoverHeight)
+            if (hit.distance <= hoverHeight)
             {
 
                 //Debug.Log("adding force");
@@ -76,11 +79,11 @@ public class Beehavior : Enemy
             }
 
             //If the object hit is less than or equal to 6 units away from this object.
-            //if (hit.distance <= hoverHeight)
-            //{
-            //    rb.AddForce(new Vector2(0, hoverForce));
-            //    Debug.Log("Enemy In Range!");
-            //}
+            if (hit.distance <= hoverHeight)
+            {
+                rb.AddForce(new Vector2(0, hoverForce));
+                //Debug.Log("Enemy In Range!");
+            }
         }
 
 
@@ -139,7 +142,6 @@ public class Beehavior : Enemy
 
     public void Attack()
     {
-        //Collider2D[] HitEnemies = Physics2D.OverlapCircleAll(attackpoint.position, attackrange, EnemyLayers);
 
 
 
@@ -153,13 +155,7 @@ public class Beehavior : Enemy
         nextattack = Time.time + 1f / asp;
 
 
-        //damage them each
-        //foreach (Collider2D enemy in HitEnemies)
-        //{
-        //    Debug.Log("we hit " + enemy.name);
-        //    enemy.GetComponent<Player_Controller>().TakeDamage(dmg);
 
-        //}
         SpawnArrow();
 
         //stance = Stance.move;

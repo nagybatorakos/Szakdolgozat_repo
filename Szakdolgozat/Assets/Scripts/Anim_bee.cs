@@ -23,7 +23,7 @@ public class Anim_bee : Animator_Enemy
     private void Update()
     {
 
-        Debug.Log(isComplete);
+        //Debug.Log(isComplete);
         if (coll.IsTouchingLayers(ground))
         {
             isGrounded = true;

@@ -19,6 +19,12 @@ public class StatSys : MonoBehaviour
     public TextMeshProUGUI[] pointstr = new TextMeshProUGUI[5];
     public int[] point = new int[5];
 
+    public float attack_up = 5f;
+    public float movesp_up=0.3f;
+    public float jump_up=0.2f;
+    public float nextattack_up=0.2f;
+    public float special_up=5f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,8 +54,8 @@ public class StatSys : MonoBehaviour
         pointstr[1].text = point[1].ToString();
         setvisible();
 
-        player.MovementSpeed += 0.3f;
-        player.Jumpheight += 0.2f;
+        player.MovementSpeed += movesp_up;
+        player.Jumpheight += jump_up;
     }
     public void add3()
     {
@@ -57,7 +63,7 @@ public class StatSys : MonoBehaviour
         pointstr[2].text = point[2].ToString();
         setvisible();
 
-        player.AttackDamage += 5f;
+        player.AttackDamage += attack_up;
     }
     public void add4()
     {
@@ -65,13 +71,14 @@ public class StatSys : MonoBehaviour
         pointstr[3].text = point[3].ToString();
         setvisible();
 
-        player.attackRate += 0.2f;
+        player.attackRate += nextattack_up;
     }
     public void add5()
     {
         point[4] += 1;
         pointstr[4].text = point[4].ToString();
         setvisible();
+        player.specialdamage=special_up;
     }
 
     private void setvisible()

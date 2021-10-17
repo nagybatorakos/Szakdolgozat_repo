@@ -9248,6 +9248,10 @@ PrefabInstance:
       propertyPath: statsys
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3509009046691316269, guid: fc31384aacc0a9b498bfb8ae99b49676, type: 3}
+      propertyPath: hoverHeight
+      value: 1.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc31384aacc0a9b498bfb8ae99b49676, type: 3}
 --- !u!1001 &3743793688829824240

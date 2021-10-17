@@ -9,7 +9,9 @@ public class InGameUI : MonoBehaviour
     public Inventory invy;
     public GameObject inv;
     public GameObject sett;
+    public GameObject shop;
     public TextMeshProUGUI tmp;
+    public bool interact=false;
     
     // Start is called before the first frame update
     void Start()
@@ -24,11 +26,23 @@ public class InGameUI : MonoBehaviour
         {
             tmp.text = invy.coins.ToString();
         }
+
+        if (interact)
+        {
+            OpenInventory();
+            inv.transform.Find("StatsMenu").gameObject.SetActive(false);
+            shop.SetActive(true);
+
+        }
+
+
     }
 
     private void CloseActive()
     {
-        List<GameObject> ls = new List<GameObject> { inv, sett };
+        interact = false;
+
+        List<GameObject> ls = new List<GameObject> { inv, sett, shop };
         foreach(GameObject l in ls)
         {
             if (l.activeSelf)
@@ -42,12 +56,13 @@ public class InGameUI : MonoBehaviour
     {
         CloseActive();
         inv.SetActive(true);
+        inv.transform.Find("StatsMenu").gameObject.SetActive(true);
     }
 
     public void CloseInventory()
     {
-        
-        inv.SetActive(false);
+        CloseActive();
+        //inv.SetActive(false);
 
         //gameObject.transform.Find("healthbar").Find("fill").GetComponent<RectTransform>();
     }

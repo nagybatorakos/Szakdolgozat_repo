@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class Background : MonoBehaviour
 {
-    private float length, startpos;
+    private float length, startposx, startposy;
     [SerializeField] GameObject cam;
     [SerializeField] float effect;
+    public float yeffect;
 
     void Start()
     {
         cam = GameObject.Find("Main Camera");
         length = GetComponent<SpriteRenderer>().bounds.size.x;
-        startpos = transform.position.x+length/2;
+        startposx = transform.position.x+length/2;
+
+        startposy = transform.position.y;
     }
 
 
@@ -20,9 +23,15 @@ public class Background : MonoBehaviour
     {
         float temp = (cam.transform.position.x * (1 - effect));
         float dist = (cam.transform.position.x * effect);
-        transform.position = new Vector3(startpos + dist, transform.position.y, transform.position.z);
-        if (temp > startpos + length) startpos += length;
-        else if (temp < startpos - length) startpos -= length;
+
+        float diff = cam.transform.position.y*yeffect;
+        float b = (startposy + diff);
+
+        transform.position = new Vector3(startposx + dist, startposy + diff, transform.position.z);
+
+        if (temp > startposx + length) { startposx += length; }
+        else if (temp < startposx - length) { startposx -= length; }
+        //transform.position.y
     }
 }
 

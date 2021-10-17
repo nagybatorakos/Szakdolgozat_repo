@@ -33,7 +33,7 @@ public class bee_sting : Projectile
     void Update()
     {
         Launch();
-
+        if (transform.position == Vector3.MoveTowards(transform.position, new Vector3(ipu, ips, pl.position.z), speed * Time.deltaTime)) { Destroy(gameObject); }
     }
 
 

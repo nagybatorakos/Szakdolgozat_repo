@@ -26,7 +26,7 @@ public class Animator_EnemyMelee : Animator_Enemy
     private void Update()
     {
 
-        Debug.Log(isComplete);
+        //Debug.Log(isComplete);
         if (coll.IsTouchingLayers(ground))
         {
             isGrounded = true;

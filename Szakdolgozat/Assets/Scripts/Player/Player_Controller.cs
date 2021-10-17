@@ -30,6 +30,7 @@ public class Player_Controller : MonoBehaviour
     [SerializeField] private float nextAttackTime = 0f;
     [SerializeField] private GameObject projectile;
     public float special_range = 8f;
+    public float specialdamage=20f;
 
     //Layers
     [SerializeField] private LayerMask EnemyLayers;
@@ -103,7 +104,7 @@ public class Player_Controller : MonoBehaviour
                 {
                     if (enemy.tag != "Enemy" || enemy.gameObject.name == "see") { continue; }
                     Debug.Log("we hit " + enemy.name);
-                    enemy.GetComponent<Enemy>().TakeDamage(AttackDamage);
+                    enemy.GetComponent<Enemy>().TakeDamage(specialdamage);
                 }
                 HitSpecial.Clear();
             }
@@ -251,11 +252,27 @@ public class Player_Controller : MonoBehaviour
         Debug.Log("arrow");
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.name!= "blacksmith") { return; }
+        GameObject.Find("Canvas").transform.Find("Shopinfo").gameObject.SetActive(true);
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Debug.Log("pressed e");
+            GameObject.Find("Canvas").transform.Find("Shopinfo").gameObject.SetActive(false);
+            GameObject.Find("Canvas").GetComponent<InGameUI>().interact = true;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.name != "blacksmith") { return; }
+        GameObject.Find("Canvas").transform.Find("Shopinfo").gameObject.SetActive(false);
+        //GameObject.Find("Canvas").GetComponent<InGameUI>().interact = false;
+    }
+
     //[System.Obsolete]
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
-
 
         if (collision.tag == "SceneSwap")
         {
@@ -305,7 +322,7 @@ public class Player_Controller : MonoBehaviour
 
         foreach (GameObject go in cam.transfer)
         {
-            Debug.Log(next.name);
+            //Debug.Log(next.name);
             SceneManager.MoveGameObjectToScene(go, SceneManager.GetSceneByName(collision.gameObject.name));
 
 
