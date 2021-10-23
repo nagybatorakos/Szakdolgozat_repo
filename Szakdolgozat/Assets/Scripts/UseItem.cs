@@ -44,6 +44,7 @@ public class UseItem : MonoBehaviour
     {
         int idx = 0;
         bool pressed = false;
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             idx = 0;

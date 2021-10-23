@@ -14,6 +14,9 @@ public class Beehavior : Enemy
     void Start()
     {
         hpbar = gameObject.transform.Find("healthbar").Find("fill").GetComponent<RectTransform>();
+        jumppoint = gameObject.transform.Find("see").gameObject.GetComponent<Collider2D>();
+        attackpoint = gameObject.transform.Find("attackpoint");
+        
 
         coll = GetComponent<Collider2D>();
         rb = GetComponent<Rigidbody2D>();
@@ -54,7 +57,7 @@ public class Beehavior : Enemy
         //Cast a ray in the direction specified in the inspector.
         //RaycastHit2D hit = Physics2D.Raycast(this.gameObject.transform.position, Vector2.down*hoverHeight);
         //Debug.DrawRay(transform.position, Vector2.down * hoverHeight);
-        Debug.DrawLine(transform.position, new Vector2(transform.position.x, -1 * hoverHeight));
+        Debug.DrawLine(transform.position, new Vector2(transform.position.x, -5* hoverHeight));
         RaycastHit2D hit = Physics2D.Linecast(transform.position, new Vector2(transform.position.x, -1*hoverHeight) , 1 << LayerMask.NameToLayer("ground"));
         
         //If something was hit.
@@ -66,7 +69,7 @@ public class Beehavior : Enemy
             //Debug.Log($"{distance}, {hit.collider.gameObject.name}");
             // Only apply a lifting force if the object is too low (ie, let
             // gravity pull it downward if it is too high).
-            if (hit.distance <= hoverHeight)
+            if (distance <= hoverHeight)
             {
 
                 //Debug.Log("adding force");

@@ -136,9 +136,9 @@ MonoBehaviour:
   player: 1
   arrow: 0
   speed: 1.5
-  damage: 20
-  special_damage: 30
-  special: 1
+  damage: 35
+  special_damage: 40
+  special: 0
 --- !u!50 &2239721635691604241
 Rigidbody2D:
   serializedVersion: 4

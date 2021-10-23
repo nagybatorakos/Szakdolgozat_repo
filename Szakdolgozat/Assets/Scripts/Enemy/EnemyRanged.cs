@@ -11,6 +11,8 @@ public class EnemyRanged : Enemy
     void Start()
     {
         hpbar = gameObject.transform.Find("healthbar").Find("fill").GetComponent<RectTransform>();
+        jumppoint = gameObject.transform.Find("see").gameObject.GetComponent<Collider2D>();
+        attackpoint = gameObject.transform.Find("attackpoint");
 
         coll = GetComponent<Collider2D>();
         rb = GetComponent<Rigidbody2D>();
@@ -29,6 +31,7 @@ public class EnemyRanged : Enemy
         if (player == null)
         {
             player = GameObject.Find("Main Camera").GetComponent<Camera_Controller>().player;
+            statsys = player.GetComponent<Player_Controller>().statsys;
         }
 
         if (isDead)

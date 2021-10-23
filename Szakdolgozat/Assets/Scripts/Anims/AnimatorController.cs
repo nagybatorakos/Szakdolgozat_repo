@@ -116,7 +116,7 @@ public class AnimatorController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             ChangeAnimationState(State.Roll);
-            rb.velocity = new Vector2(5f, rb.velocity.y);
+            rb.velocity = new Vector2(7f*transform.localScale.x, rb.velocity.y);
             isComplete = false;
         }
 

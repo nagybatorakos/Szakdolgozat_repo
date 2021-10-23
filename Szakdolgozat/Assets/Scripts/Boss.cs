@@ -2,10 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyMelee : Enemy
+public class Boss : Enemy
 {
     [SerializeField] private float dist;
-
+    public float dash_rate;
+    public float next_dash;
+    [SerializeField] private float dash_damage;
+    public bool dash =false;
+    public float chp;
+    // Start is called before the first frame update
     void Start()
     {
         hpbar = gameObject.transform.Find("healthbar").Find("fill").GetComponent<RectTransform>();
@@ -23,9 +28,10 @@ public class EnemyMelee : Enemy
         currentHealth = maxHealth;
     }
 
-
+    // Update is called once per frame
     void Update()
     {
+        chp = currentHealth;
         if (player == null)
         {
             player = GameObject.Find("Main Camera").GetComponent<Camera_Controller>().player;
@@ -45,17 +51,22 @@ public class EnemyMelee : Enemy
             Movement();
             //Attack();
         }
-
     }
 
 
     private void Movement()
     {
-
+        int a = 2;
         if (detected == false || !anim.isComplete)
         {
             return;
         }
+
+        if (dash)
+        {
+            a = 2;
+        }
+        else { a = 1; }
 
         if (Vector2.Distance(player.transform.position, transform.position) < dist)
         {
@@ -64,12 +75,12 @@ public class EnemyMelee : Enemy
             return;
         }
 
-        if (transform.position.x - player.transform.position.x > 0)
+        else if (transform.position.x - player.transform.position.x > 0)
         {
             rb.constraints = RigidbodyConstraints2D.None;
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
             //stance = Stance.move;
-            rb.velocity = new Vector2(-1 * ms, rb.velocity.y);
+            rb.velocity = new Vector2(-1 * ms*a, rb.velocity.y);
             transform.localScale = new Vector2(-1, 1);
         }
 
@@ -78,7 +89,7 @@ public class EnemyMelee : Enemy
             rb.constraints = RigidbodyConstraints2D.None;
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
             //stance = Stance.move;
-            rb.velocity = new Vector2(ms, rb.velocity.y);
+            rb.velocity = new Vector2(ms*a, rb.velocity.y);
             transform.localScale = new Vector2(1, 1);
         }
         else
@@ -95,7 +106,7 @@ public class EnemyMelee : Enemy
 
     public void Attack()
     {
-        
+
         Collider2D[] HitEnemies = Physics2D.OverlapCircleAll(attackpoint.position, attackrange, EnemyLayers);
         Debug.Log(HitEnemies.Length);
 
@@ -131,4 +142,5 @@ public class EnemyMelee : Enemy
             Gizmos.DrawWireSphere(attackpoint.position, attackrange);
         }
     }
+
 }

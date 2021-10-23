@@ -11,7 +11,7 @@ public class Animator_Enemy : MonoBehaviour
     [SerializeField] private protected Animator anim;
     [SerializeField] private protected LayerMask ground;
 
-    public enum State { Idle, Run, Jump, Fall, Attack_1, Die }
+    public enum State { Idle, Run, Jump, Fall, Attack_1, Die, Dash }
     public State CurrentState = State.Idle;
     public State NewState = State.Idle;
 

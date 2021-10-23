@@ -31,6 +31,7 @@ public class Inventory : MonoBehaviour
         instpref.Add("health_potion", prefs[0]);
         instpref.Add("potion_1", prefs[1]);
         instpref.Add("potion_3", prefs[2]);
+        instpref.Add("potion_2", prefs[3]);
 
         //Slots.Add(slot1, 0);
         //Slots.Add(slot2, 0);

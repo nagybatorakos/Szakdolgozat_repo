@@ -24,6 +24,7 @@ public class StatSys : MonoBehaviour
     public float jump_up=0.2f;
     public float nextattack_up=0.2f;
     public float special_up=5f;
+    private int points = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +35,7 @@ public class StatSys : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        player = GameObject.Find("Main Camera").GetComponent<Camera_Controller>().player.GetComponent<Player_Controller>();
     }
 
     public void add1()
@@ -46,6 +47,7 @@ public class StatSys : MonoBehaviour
         player.maxHealth += 20;
         player.currentHealth = player.maxHealth;
         player.healthBar.SetMaxHealth(player.maxHealth);
+        points -= 1;
     }
 
     public void add2()
@@ -56,6 +58,7 @@ public class StatSys : MonoBehaviour
 
         player.MovementSpeed += movesp_up;
         player.Jumpheight += jump_up;
+        points -= 1;
     }
     public void add3()
     {
@@ -64,6 +67,7 @@ public class StatSys : MonoBehaviour
         setvisible();
 
         player.AttackDamage += attack_up;
+        points -= 1;
     }
     public void add4()
     {
@@ -72,6 +76,7 @@ public class StatSys : MonoBehaviour
         setvisible();
 
         player.attackRate += nextattack_up;
+        points -= 1;
     }
     public void add5()
     {
@@ -79,6 +84,7 @@ public class StatSys : MonoBehaviour
         pointstr[4].text = point[4].ToString();
         setvisible();
         player.specialdamage=special_up;
+        points -= 1;
     }
 
     private void setvisible()
@@ -86,7 +92,7 @@ public class StatSys : MonoBehaviour
         foreach(TextMeshProUGUI mesh in pointstr)
         {
             GameObject button = mesh.transform.GetChild(1).gameObject;
-            if(button.activeSelf)
+            if (button.activeSelf && points == 0)
             { button.SetActive(false); sign.SetActive(false); }
             else { button.SetActive(true); sign.SetActive(true); }
         }
@@ -98,6 +104,7 @@ public class StatSys : MonoBehaviour
             lvl+=1;
             xp = xp - xpborder;
             xpborder = lvl * 100 / 2;
+            points += 1;
             setvisible();
         }
         info.text = $"Level: {lvl}   XP: {xp}/{xpborder}";

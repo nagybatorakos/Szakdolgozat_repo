@@ -53,8 +53,16 @@ public class Projectile_P : Projectile
                 }
                 else
                 {
-                    damage = special_damage;
+                   
 
+                    Enemy enemy = collision.GetComponent<Enemy>();
+                    if (enemy != null)
+                    {
+                        enemy.TakeDamage(special_damage);
+                    }
+
+                    Debug.Log(collision.gameObject.name);
+                    Destroy(gameObject);
                 }
 
             }
@@ -62,21 +70,17 @@ public class Projectile_P : Projectile
             {
 
 
-
-
-                //on collision destroy
-                Debug.Log(collision.gameObject.name);
-                Destroy(gameObject);
-
-                //instantiate sprites as children of enemy
-
-                //on collision damage
-                //???whats that?? brackeys 11:45
                 Enemy enemy = collision.GetComponent<Enemy>();
                 if (enemy != null)
                 {
                     enemy.TakeDamage(damage);
                 }
+
+                //on collision destroy
+                Debug.Log(collision.gameObject.name);
+                Destroy(gameObject);
+
+
             }
 
 

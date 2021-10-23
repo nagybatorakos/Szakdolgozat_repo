@@ -9,7 +9,7 @@ public class Projectile : MonoBehaviour
     private protected Rigidbody2D rb;
     public bool arrow = true;
     [SerializeField] private protected float speed = 4f;
-    [SerializeField] private protected float damage = 20f;
+    public float damage = 20f;
 
 
     // Start is called before the first frame update

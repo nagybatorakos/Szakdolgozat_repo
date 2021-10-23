@@ -30,7 +30,7 @@ public class Player_Controller : MonoBehaviour
     [SerializeField] private float nextAttackTime = 0f;
     [SerializeField] private GameObject projectile;
     public float special_range = 8f;
-    public float specialdamage=20f;
+    public float specialdamage = 20f;
 
     //Layers
     [SerializeField] private LayerMask EnemyLayers;
@@ -57,6 +57,7 @@ public class Player_Controller : MonoBehaviour
     public Animator transition;
 
     public List<Collider2D> HitSpecial = new List<Collider2D>();
+    private bool sceneswap = false;
 
     void Start()
     {
@@ -78,6 +79,7 @@ public class Player_Controller : MonoBehaviour
 
     private void Update()
     {
+        if (sceneswap) { return; }
         InputDetection();
 
         if (sword)
@@ -234,6 +236,10 @@ public class Player_Controller : MonoBehaviour
 
     public void SpawnArrow()
     {
+        projectile.GetComponent<Projectile_P>().special_damage = specialdamage;
+        projectile.GetComponent<Projectile>().damage = AttackDamage;
+        projectile.GetComponent<Projectile>().player = true;
+        projectile.GetComponent<Projectile_P>().special = special;
         projectile.transform.localScale = new Vector2(transform.localScale.x, transform.localScale.y);
         if (projectile.name == "fireball")
         {
@@ -247,14 +253,13 @@ public class Player_Controller : MonoBehaviour
             Instantiate(projectile, AttackPoint.position, transform.rotation);
 
         }
-        projectile.GetComponent<Projectile>().player = true;
-        projectile.GetComponent<Projectile_P>().special = special;
+
         Debug.Log("arrow");
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.name!= "blacksmith") { return; }
+        if (collision.gameObject.name != "blacksmith") { return; }
         GameObject.Find("Canvas").transform.Find("Shopinfo").gameObject.SetActive(true);
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -273,34 +278,30 @@ public class Player_Controller : MonoBehaviour
     //[System.Obsolete]
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
-        if (collision.tag == "SceneSwap")
+        switch (collision.tag)
         {
+            case "SceneSwap":
+                sceneswap = true;
+                StartCoroutine(ChangeScene(collision));
+                break;
 
-            StartCoroutine(ChangeScene(collision));
+            case "Coin":
+                collision.gameObject.GetComponent<Pickup>().pickup();
+                inv.coins += collision.gameObject.GetComponent<Pickup>().value;
+                break;
+
+            case "Item":
+                inv.AddtoInv(collision.gameObject);
+                Destroy(collision.gameObject);
+                break;
+
+            case "spike":
+                TakeDamage(10f);
+                rb.velocity = new Vector2(rb.velocity.x, 5f);
+                break;
 
 
         }
-        else if (collision.gameObject.name.StartsWith("Coin"))
-        {
-            collision.gameObject.GetComponent<Pickup>().pickup();
-            inv.coins += collision.gameObject.GetComponent<Pickup>().value;
-            //itt inv.coins++
-        }
-        else if (collision.tag == "Item")
-        {
-            //string[] st = collision.gameObject.name.Split(' ');
-
-            inv.AddtoInv(collision.gameObject);
-            Destroy(collision.gameObject);
-
-        }
-
-    }
-
-    private void StartTransition()
-    {
-
     }
 
     IEnumerator ChangeScene(Collider2D collision)
@@ -362,6 +363,7 @@ public class Player_Controller : MonoBehaviour
         SceneManager.UnloadScene(active);
         yield return new WaitForSeconds(3f);
         transition.SetTrigger("End");
+        sceneswap = false;
     }
 
     //draws hitbox

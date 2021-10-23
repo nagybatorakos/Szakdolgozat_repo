@@ -118,11 +118,11 @@ public class Enemy : MonoBehaviour
     {
         statsys.xp += xp;
         statsys.lvlup();
-        //foreach(GameObject item in items)
-        //{
-        //    Instantiate(item, transform.position, item.transform.rotation);
-            
-        //    //player.GetComponent<Player_Controller>
-        //}
+        foreach (GameObject item in items)
+        {
+            Instantiate(item, transform.position, item.transform.rotation);
+
+            //player.GetComponent<Player_Controller>
+        }
     }
 }
