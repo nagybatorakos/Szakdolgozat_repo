@@ -92,7 +92,7 @@ MonoBehaviour:
   currentHealth: 0
   Name: 
   dmg: 10
-  ms: 2
+  ms: 1.5
   asp: 0.5
   detectionRange: 2.5
   attackrange: 0.2

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AnimatorController : MonoBehaviour
 {
@@ -18,8 +19,8 @@ public class AnimatorController : MonoBehaviour
 
     public AudioClip[] audios = new AudioClip[3];
     public AudioSource audio;
-   
-    
+
+
 
 
 
@@ -37,7 +38,7 @@ public class AnimatorController : MonoBehaviour
     [SerializeField] private bool isRollPressed;
 
 
-    
+
 
 
 
@@ -49,7 +50,7 @@ public class AnimatorController : MonoBehaviour
         anim = GetComponent<Animator>();
         tf = player.GetComponent<Transform>();
 
-
+        audio = GetComponent<AudioSource>();
     }
 
 
@@ -109,14 +110,14 @@ public class AnimatorController : MonoBehaviour
         {
             ChangeAnimationState(State.Special);
             isComplete = false;
-           
+
         }
 
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             ChangeAnimationState(State.Roll);
-            rb.velocity = new Vector2(7f*transform.localScale.x, rb.velocity.y);
+            rb.velocity = new Vector2(7f * player.transform.localScale.x, rb.velocity.y);
             isComplete = false;
         }
 
@@ -153,7 +154,7 @@ public class AnimatorController : MonoBehaviour
 
     public void spec_ended()
     {
-       player.GetComponent<Player_Controller>().special = false;
+        player.GetComponent<Player_Controller>().special = false;
         player.layer = 10;
     }
 
@@ -200,6 +201,18 @@ public class AnimatorController : MonoBehaviour
     public void SpawnA()
     {
         player.GetComponent<Player_Controller>().SpawnArrow();
+    }
+
+    public void Die()
+    {
+        isComplete = false;
+        ChangeAnimationState(State.Die);
+    }
+
+    public void gameover()
+    {
+        
+        StartCoroutine(player.GetComponent<Player_Controller>().SceneSwap.GameOver());
     }
 
 

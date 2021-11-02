@@ -5,7 +5,7 @@ using UnityEngine;
 public class Animator_Boss : Animator_Enemy
 {
     public Boss sc;
-
+    public GameObject won;
     private void Start()
     {
 
@@ -24,7 +24,10 @@ public class Animator_Boss : Animator_Enemy
     }
     private void Update()
     {
-
+        if (won == null)
+        {
+            won=GameObject.Find("Canvas").transform.Find("won").gameObject;
+        }
         //Debug.Log(isComplete);
         if (coll.IsTouchingLayers(ground))
         {
@@ -74,6 +77,7 @@ public class Animator_Boss : Animator_Enemy
     public void drop()
     {
         sc.DropItem();
+        won.SetActive(true);
     }
     public void start_dash()
     {

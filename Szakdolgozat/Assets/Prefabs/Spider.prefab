@@ -495,4 +495,4 @@ MonoBehaviour:
   - {fileID: 7252615788095796722, guid: 976d58c97c2d2b24ea1b7203758a1c3b, type: 3}
   - {fileID: 3125010043576461740, guid: 11595dd8c6feb3a4da8d3e9e3765f4a0, type: 3}
   statsys: {fileID: 0}
-  dist: 1.1
+  dist: 0.8

@@ -261,6 +261,7 @@ MonoBehaviour:
   nextAttackTime: 0
   projectile: {fileID: 4821973587298449969, guid: dcc047a5b3162424690fa34e79c4a313, type: 3}
   special_range: 8
+  specialdamage: 20
   EnemyLayers:
     serializedVersion: 2
     m_Bits: 2048
@@ -279,6 +280,8 @@ MonoBehaviour:
   cam: {fileID: 0}
   transition: {fileID: 0}
   HitSpecial: []
+  locker: 0
+  SceneSwap: {fileID: 0}
 --- !u!82 &2385199458921139491
 AudioSource:
   m_ObjectHideFlags: 0

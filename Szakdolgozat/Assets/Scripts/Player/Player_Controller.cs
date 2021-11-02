@@ -54,11 +54,11 @@ public class Player_Controller : MonoBehaviour
     public bool special = false;
 
     public Camera_Controller cam;
-    public Animator transition;
+
 
     public List<Collider2D> HitSpecial = new List<Collider2D>();
-    private bool sceneswap = false;
-
+    public bool locker = false;
+    public SceneSwap SceneSwap;
     void Start()
     {
 
@@ -79,7 +79,7 @@ public class Player_Controller : MonoBehaviour
 
     private void Update()
     {
-        if (sceneswap) { return; }
+        if (locker) { return; }
         InputDetection();
 
         if (sword)
@@ -115,6 +115,7 @@ public class Player_Controller : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (locker) { return; }
         Movement();
 
 
@@ -190,7 +191,7 @@ public class Player_Controller : MonoBehaviour
                 special = true;
 
                 gameObject.layer = 4;
-
+                nextAttackTime = Time.time + 2f / attackRate;
 
 
 
@@ -231,6 +232,11 @@ public class Player_Controller : MonoBehaviour
     {
         currentHealth -= dmg;
         healthBar.SetHealth(currentHealth);
+        if (currentHealth <= 0)
+        {
+            locker = true;
+            anim.Die();
+        }
         Debug.Log("player took dmg");
     }
 
@@ -278,11 +284,11 @@ public class Player_Controller : MonoBehaviour
     //[System.Obsolete]
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        
         switch (collision.tag)
         {
             case "SceneSwap":
-                sceneswap = true;
-                StartCoroutine(ChangeScene(collision));
+                StartCoroutine(SceneSwap.ChangeScene(collision));
                 break;
 
             case "Coin":
@@ -304,69 +310,72 @@ public class Player_Controller : MonoBehaviour
         }
     }
 
-    IEnumerator ChangeScene(Collider2D collision)
-    {
-        transition.SetTrigger("Start");
-        yield return new WaitForSeconds(3f);
-        Dictionary<string, Vector3> positions = new Dictionary<string, Vector3>();
-        positions.Add("Village0", new Vector3(30f, -2f, tf.position.z));
-        positions.Add("Village1", new Vector3(83f, -1.8f, tf.position.z));
-        positions.Add("Cave", new Vector3(-132f, -0.8f, tf.position.z));
-        positions.Add("ForestBridge1", new Vector3(-108f, -0.8f, tf.position.z));
-        positions.Add("ForestBridge0", new Vector3(20f, -1.6f, tf.position.z));
-        positions.Add("Dungeon", new Vector3(97f, -1.8f, tf.position.z));
+    //IEnumerator ChangeScene(Collider2D collision)
+    //{
+    //    transition.SetTrigger("Start");
+    //    yield return new WaitForSeconds(3f);
+    //    Dictionary<string, Vector3> positions = new Dictionary<string, Vector3>();
+    //    positions.Add("Village0", new Vector3(30f, -2f, tf.position.z));
+    //    positions.Add("Village1", new Vector3(83f, -1.8f, tf.position.z));
+    //    positions.Add("Cave", new Vector3(-132f, -0.8f, tf.position.z));
+    //    positions.Add("ForestBridge1", new Vector3(-108f, -0.8f, tf.position.z));
+    //    positions.Add("ForestBridge0", new Vector3(20f, -1.6f, tf.position.z));
+    //    positions.Add("Dungeon", new Vector3(97f, -1.8f, tf.position.z));
 
-        Scene active = SceneManager.GetActiveScene();
-        Scene next = SceneManager.GetSceneByName(collision.gameObject.name);
+    //    Scene active = SceneManager.GetActiveScene();
+    //    Scene next = SceneManager.GetSceneByName(collision.gameObject.name);
 
-        SceneManager.LoadScene(collision.gameObject.name, LoadSceneMode.Additive);
+    //    SceneManager.LoadScene(collision.gameObject.name, LoadSceneMode.Additive);
 
-        foreach (GameObject go in cam.transfer)
-        {
-            //Debug.Log(next.name);
-            SceneManager.MoveGameObjectToScene(go, SceneManager.GetSceneByName(collision.gameObject.name));
+    //    foreach (GameObject go in cam.transfer)
+    //    {
+    //        //Debug.Log(next.name);
+    //        SceneManager.MoveGameObjectToScene(go, SceneManager.GetSceneByName(collision.gameObject.name));
 
 
-        }
+    //    }
 
-        yield return null;
+    //    yield return null;
 
-        if (collision.gameObject.name == "ForestBridge")
-        {
-            if (collision.gameObject.transform.position.x < -125f)
-            {
-                transform.position = positions[collision.gameObject.name + "1"];
-            }
-            else
-            {
-                transform.position = positions[collision.gameObject.name + "0"];
-            }
-        }
-        else if (collision.gameObject.name == "Village")
-        {
-            if (collision.gameObject.transform.position.x < 30f)
-            {
-                transform.position = positions[collision.gameObject.name + "0"];
-            }
-            else
-            {
-                transform.position = positions[collision.gameObject.name + "1"];
-            }
-        }
-        else
-        {
-            transform.position = positions[collision.gameObject.name];
-        }
+    //    if (collision.gameObject.name == "ForestBridge")
+    //    {
+    //        if (collision.gameObject.transform.position.x < -125f)
+    //        {
+    //            transform.position = positions[collision.gameObject.name + "1"];
+    //        }
+    //        else
+    //        {
+    //            transform.position = positions[collision.gameObject.name + "0"];
+    //        }
+    //    }
+    //    else if (collision.gameObject.name == "Village")
+    //    {
+    //        if (collision.gameObject.transform.position.x < 30f)
+    //        {
+    //            transform.position = positions[collision.gameObject.name + "0"];
+    //        }
+    //        else
+    //        {
+    //            transform.position = positions[collision.gameObject.name + "1"];
+    //        }
+    //    }
+    //    else
+    //    {
+    //        transform.position = positions[collision.gameObject.name];
+    //    }
 
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName(collision.gameObject.name));
+    //    SceneManager.SetActiveScene(SceneManager.GetSceneByName(collision.gameObject.name));
 
-        SceneManager.UnloadScene(active);
-        yield return new WaitForSeconds(3f);
-        transition.SetTrigger("End");
-        sceneswap = false;
-    }
+    //    SceneManager.UnloadScene(active);
+    //    yield return new WaitForSeconds(3f);
+    //    transition.SetTrigger("End");
+    //    locker = false;
+    //}
+
+
 
     //draws hitbox
+
     private void OnDrawGizmosSelected()
     {
         if (AttackPoint != null)
