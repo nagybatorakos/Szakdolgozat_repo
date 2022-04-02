@@ -53,43 +53,27 @@ public class Beehavior : Enemy
         }
 
 
-
-        //Cast a ray in the direction specified in the inspector.
-        //RaycastHit2D hit = Physics2D.Raycast(this.gameObject.transform.position, Vector2.down*hoverHeight);
-        //Debug.DrawRay(transform.position, Vector2.down * hoverHeight);
         Debug.DrawLine(transform.position, new Vector2(transform.position.x, -5* hoverHeight));
+
         RaycastHit2D hit = Physics2D.Linecast(transform.position, new Vector2(transform.position.x, -1*hoverHeight) , 1 << LayerMask.NameToLayer("ground"));
-        
+       
         //If something was hit.
         if (hit.collider != null && hit.collider.tag == "Ground")
         {
             float hoverError = hoverHeight - hit.distance;
-            //Debug.Log("hit", hit.collider);
             float distance = transform.position.y - hit.point.y;
-            //Debug.Log($"{distance}, {hit.collider.gameObject.name}");
-            // Only apply a lifting force if the object is too low (ie, let
-            // gravity pull it downward if it is too high).
+
             if (distance <= hoverHeight)
             {
-
-                //Debug.Log("adding force");
-                // Subtract the damping from the lifting force and apply it to
-                // the rigidbody.
-                float upwardSpeed = rb.velocity.y;
-                float lift = hoverError * hoverForce;// - upwardSpeed;// * hoverDamp;
+                float lift = hoverError * hoverForce;
                 rb.AddForce(lift * Vector2.up);
-
-            }
-
-            //If the object hit is less than or equal to 6 units away from this object.
-            if (hit.distance <= hoverHeight)
-            {
-                rb.AddForce(new Vector2(0, hoverForce));
-                //Debug.Log("Enemy In Range!");
             }
         }
 
-
+            //if (hit.distance <= hoverHeight)
+            //{
+            //    rb.AddForce(new Vector2(0, hoverForce));
+            //}
 
     }
 

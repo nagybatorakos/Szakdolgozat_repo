@@ -24,7 +24,6 @@ public class StartMenuController : MonoBehaviour
     public void PlayButton()
     {
         choosewindow.SetActive(true);
-        //SceneManager.LoadScene("ForestSpawn");
     }
 
     public void QuitButton()

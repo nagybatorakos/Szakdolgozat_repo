@@ -5,25 +5,14 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    //public Dictionary<GameObject, string> Slots = new Dictionary<GameObject, string>();
-    //public Dictionary<string, int> NameCount = new Dictionary<string, int>();
 
-    //public List<KeyValuePair<GameObject, int>> SlotList = new List<KeyValuePair<GameObject, int>>();
     public int coins = 0;
 
     public GameObject[] inv = new GameObject[9];
     public GameObject Items;
     public Dictionary<string, GameObject> instpref = new Dictionary<string, GameObject>();
     public GameObject[] prefs = new GameObject[3];
-    //public ItemSlot slot1;
-    //public ItemSlot slot2;
-    //public ItemSlot slot3;
-    //public ItemSlot slot4;
-    //public ItemSlot slot5;
-    //public ItemSlot slot6;
-    //public ItemSlot slot7;
-    //public ItemSlot slot8;
-    //public ItemSlot slot9;
+
 
     // Start is called before the first frame update
     void Start()
@@ -33,15 +22,7 @@ public class Inventory : MonoBehaviour
         instpref.Add("potion_3", prefs[2]);
         instpref.Add("potion_2", prefs[3]);
 
-        //Slots.Add(slot1, 0);
-        //Slots.Add(slot2, 0);
-        //Slots.Add(slot3, 0);
-        //Slots.Add(slot4, 0);
-        //Slots.Add(slot5, 0);
-        //Slots.Add(slot6, 0);
-        //Slots.Add(slot7, 0);
-        //Slots.Add(slot8, 0);
-        //Slots.Add(slot9, 0);
+
     }
 
     // Update is called once per frame
@@ -50,18 +31,6 @@ public class Inventory : MonoBehaviour
 
     }
 
-    //public void AddtoSlot(GameObject slot, string id)
-    //{
-    //    if (Slots.ContainsKey(slot))
-    //    {
-    //        Slots[slot] = id;
-    //    }
-    //    else
-    //    {
-    //        Slots.Add(slot, id);
-    //    }
-
-    //}
 
     public void AddtoInv(GameObject item)
     {

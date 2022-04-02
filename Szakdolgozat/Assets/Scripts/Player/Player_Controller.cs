@@ -150,31 +150,22 @@ public class Player_Controller : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             run = true;
-            //rb.velocity = new Vector2(MovementSpeed * -1, rb.velocity.y);
             tf.localScale = new Vector2(-1, 1);
-
         }
-
         else if (Input.GetKey(KeyCode.RightArrow))
         {
             run = true;
-            //rb.velocity = new Vector2(MovementSpeed, rb.velocity.y);
             tf.localScale = new Vector2(1, 1);
-
         }
         else
         {
             run = false;
         }
-
-
         //Jumping
         if (Input.GetKeyDown(KeyCode.UpArrow) && coll.IsTouchingLayers(ground))
         {
             rise = true;
-
             rb.velocity = new Vector2(rb.velocity.x, Jumpheight);
-
         }
         else
         {
@@ -209,11 +200,8 @@ public class Player_Controller : MonoBehaviour
 
     public void Attack()
     {
-        //need code for hunter, mage too
-
         if (sword)
         {
-
             //enemy detection and storing
             Collider2D[] HitEnemies = Physics2D.OverlapCircleAll(AttackPoint.position, AttackRange, EnemyLayers);
 
@@ -225,7 +213,6 @@ public class Player_Controller : MonoBehaviour
                 enemy.GetComponent<Enemy>().TakeDamage(AttackDamage);
             }
         }
-
     }
 
     public void TakeDamage(float dmg)
@@ -249,18 +236,13 @@ public class Player_Controller : MonoBehaviour
         projectile.transform.localScale = new Vector2(transform.localScale.x, transform.localScale.y);
         if (projectile.name == "fireball")
         {
-            //projectile.transform.localScale = new Vector2(transform.localScale.x, transform.localScale.y)*2;
             GameObject fire = Instantiate(projectile, AttackPoint.position, projectile.transform.rotation);
             fire.transform.localScale = new Vector2(transform.localScale.x, transform.localScale.x) * 2;
-            //fire.transform.localScale = fire.transform.localScale * transform.localScale.x;
         }
         else
         {
             Instantiate(projectile, AttackPoint.position, transform.rotation);
-
         }
-
-        Debug.Log("arrow");
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -278,13 +260,11 @@ public class Player_Controller : MonoBehaviour
     {
         if (collision.gameObject.name != "blacksmith") { return; }
         GameObject.Find("Canvas").transform.Find("Shopinfo").gameObject.SetActive(false);
-        //GameObject.Find("Canvas").GetComponent<InGameUI>().interact = false;
     }
 
-    //[System.Obsolete]
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
         switch (collision.tag)
         {
             case "SceneSwap":
@@ -305,8 +285,6 @@ public class Player_Controller : MonoBehaviour
                 TakeDamage(10f);
                 rb.velocity = new Vector2(rb.velocity.x, 5f);
                 break;
-
-
         }
     }
 

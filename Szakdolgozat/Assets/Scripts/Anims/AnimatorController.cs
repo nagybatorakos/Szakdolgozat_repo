@@ -183,14 +183,12 @@ public class AnimatorController : MonoBehaviour
             {
                 return;
             }
-
         }
         else
         {
             anim.Play(newState.ToString());
             CurrentState = newState;
         }
-
     }
 
     public void Slash()

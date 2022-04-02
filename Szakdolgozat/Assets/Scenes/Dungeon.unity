@@ -841,6 +841,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4353919664442911370, guid: 4494ec659779f6547b8a04d6602a58ef, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.165
+      objectReference: {fileID: 0}
     - target: {fileID: 4353919664803002364, guid: 4494ec659779f6547b8a04d6602a58ef, type: 3}
       propertyPath: xp
       value: 150
@@ -4739,6 +4743,7 @@ MonoBehaviour:
   isComplete: 1
   isGrounded: 0
   sc: {fileID: 1588439601}
+  won: {fileID: 0}
 --- !u!95 &1758671858
 Animator:
   serializedVersion: 3
